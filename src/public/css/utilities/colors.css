@@ -1,0 +1,32 @@
+
+/*VAR COLORS*/
+:root 
+{
+    --bg-color : #eaeaea;
+    --blue     : #1966ff;
+    --color_txt: #03060e;
+    --grey-border_avatar: #7c7c7c;
+
+    --white-1: rgba(255,255,255,.1);
+    --white-2: rgba(255,255,255,.2);
+    --white-3: rgba(255,255,255,.3);
+    --white-4: rgba(255,255,255,.4);
+    --white-5: rgba(255,255,255,.5);
+    --white-6: rgba(255,255,255,.6);
+    --white-7: rgba(255,255,255,.7);
+    --white-8: rgba(255,255,255,.8);
+    --white-9: rgba(255,255,255,.9);
+    --white: rgba(255,255,255);
+
+    --black-1: rgba(0,0,0,.1);
+    --black-2: rgba(0,0,0,.2);
+    --black-3: rgba(0,0,0,.3);
+    --black-4: rgba(0,0,0,.4);
+    --black-5: rgba(0,0,0,.5);
+    --black-6: rgba(0,0,0,.6);
+    --black-7: rgba(0,0,0,.7);
+    --black-8: rgba(0,0,0,.8);
+    --black-9: rgba(0,0,0,.9);
+}
+
+/*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*/

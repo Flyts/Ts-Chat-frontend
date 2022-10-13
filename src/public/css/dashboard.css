@@ -1,0 +1,34 @@
+#Dashboard
+{
+    background-color: var(--bg-color);
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+#Dashboard .SideBar
+{
+    min-width: 80px;
+    height: 100vh;
+}
+
+#Dashboard .Friends
+{
+    min-width: 350px;
+    height: 100vh;
+}
+
+#Dashboard .Conversation
+{
+    width: 100%;
+    height: 100vh;
+}
+
+#Dashboard .FriendDetails
+{
+    min-width: 300px;
+    height: 100vh;
+}
