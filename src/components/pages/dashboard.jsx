@@ -1,6 +1,8 @@
 import "../../public/css/dashboard.css"
 import SideBar from "../partials/SideBar"
 import FriendsDiscussion from "../partials/FriendsDiscussion"
+import Conversation from "../partials/Conversation"
+import FriendDetails from "../partials/FriendDetails"
 
 function Dashboard()
 {
@@ -11,11 +13,16 @@ function Dashboard()
         </div>
 
         <div className="Friends">
-            <FriendsDiscussion></FriendsDiscussion>
+            <FriendsDiscussion />
         </div>
 
-        <div className="Conversation"></div>
-        <div className="FriendDetails"></div>
+        <div className="Conversation">
+            <Conversation />
+        </div>
+
+        <div className="FriendDetails">
+            <FriendDetails />
+        </div>
     </div>
 
     return component

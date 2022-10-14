@@ -1,0 +1,60 @@
+#AvatarFriend
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+#AvatarFriend .img
+{
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    min-width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+#AvatarFriend .status
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background-color: var(--white);
+    min-width: 15px;
+    height: 15px;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.active #AvatarFriend .status
+{
+    background-color: var(--white-2);
+}
+
+#AvatarFriend .status .online
+{
+    background-color: var(--online);
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+}
+#AvatarFriend .status .offline
+{
+    background-color: var(--black-3);
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+}
+.active #AvatarFriend .status .offline
+{
+    background-color: var(--white-3);
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+}

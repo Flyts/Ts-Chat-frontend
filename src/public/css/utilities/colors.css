@@ -4,8 +4,10 @@
 {
     --bg-color : #eaeaea;
     --blue     : #1966ff;
+    --online   : #16be9a;
     --color_txt: #03060e;
     --grey-border_avatar: #7c7c7c;
+    --grey: #e2e2e2;
 
     --white-1: rgba(255,255,255,.1);
     --white-2: rgba(255,255,255,.2);
@@ -18,6 +20,7 @@
     --white-9: rgba(255,255,255,.9);
     --white: rgba(255,255,255);
 
+    --black-05: rgba(0,0,0,.04);
     --black-1: rgba(0,0,0,.1);
     --black-2: rgba(0,0,0,.2);
     --black-3: rgba(0,0,0,.3);
