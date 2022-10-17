@@ -1,13 +1,12 @@
 import "../../public/css/partials/_avatarFriend.css"
-import avatarFriend from "../../public/img/friend.jpeg"
 
-function AvatarFriend({status})
+function AvatarFriend({user})
 {
     const component =
     <div id="AvatarFriend">
-        <div className="img" style={{backgroundImage: `url(${avatarFriend})`}}></div>
+        <div className="img" style={{backgroundImage: `url(${user ? user.avatar : ""})`}}></div>
         <div className="status">
-            <i className={status === 1 ? "online" : "offline"}></i>
+            <i className={user ? user.status ? "online" : "offline" : ""}></i>
         </div>
     </div>
 

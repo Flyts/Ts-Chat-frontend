@@ -1,17 +1,27 @@
 import "../../public/css/partials/_sideBar.css"
-import avatar from "../../public/img/avatar.jpg"
 import {Link} from "react-router-dom"
 import {BsFillChatDotsFill} from "react-icons/bs"
 import {FaUsers} from "react-icons/fa"
 import {IoLogOut} from "react-icons/io5"
 import {MdEdit} from "react-icons/md"
+import { dataContext } from "../../data/context"
+import {useContext} from "react"
 
 function SideBar()
 {
+    const {userLogin, setUserLogin, setToken} = useContext(dataContext)
+
+    function Logout()
+    {
+        localStorage.removeItem("token")
+        setUserLogin({})
+        setToken("")
+    }
+
     const component = 
     <div id="SideBar">
         <div className="UserAvatar">
-            <button style={{backgroundImage: `url(${avatar})`}} title="Modifier le profil"></button>
+            <button style={{backgroundImage: `url(${userLogin.avatar})`}} title="Modifier le profil"></button>
             <div className="icon">
                 <MdEdit/>
             </div>
@@ -33,7 +43,7 @@ function SideBar()
         </ul>
 
         <div className="Bottom">
-            <IoLogOut className="icon" title="Se déconnecter"/>
+            <IoLogOut onClick={Logout} className="icon" title="Se déconnecter"/>
         </div>
     </div>
 

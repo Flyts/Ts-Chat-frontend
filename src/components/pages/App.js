@@ -5,24 +5,57 @@ import Dashboard from "../pages/dashboard.jsx"
 import Login from "../pages/login.jsx"
 import Register from "../pages/register.jsx"
 import "../../public/css/utilities/colors.css"
+import {useState, useEffect} from "react"
 
-function App() {
+function App() 
+{
+	const [userLogin, setUserLogin] = useState({}),
+		  [token, setToken]         = useState("")
+
+	useEffect(() => 
+	{
+		if(!token)
+		{
+			const token = localStorage.getItem("token")
+	
+			setToken(token)
+		}
+	}, [])
+
 	const component = 
-	<dataContext.Provider value={{}}>
+	<dataContext.Provider value={{userLogin, setUserLogin, token, setToken}}>
 		<Routes>
 			<Route 
 				path={route.dashboard.link}
-				element={<Dashboard />}
+				element={
+					token ? (
+						<Dashboard />
+					) : (
+						<Navigate replace to={route.login.link}/>
+					)
+				}
 			/>
 
 			<Route 
 				path={route.login.link}
-				element={<Login />}
+				element={
+					!token ? (
+						<Login />
+					) : (
+						<Navigate replace to={route.dashboard.link} />
+					)
+				}
 			/>
 
 			<Route 
 				path={route.register.link}
-				element={<Register />}
+				element={
+					!token ? (
+						<Register />
+					) : (
+						<Navigate replace to={route.dashboard.link} />
+					)
+				}
 			/>
 		</Routes>
 	</dataContext.Provider>
@@ -31,3 +64,4 @@ function App() {
 }
 
 export default App;
+

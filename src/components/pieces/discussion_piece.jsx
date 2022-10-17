@@ -1,7 +1,7 @@
 import "../../public/css/partials/_discussion.css"
 import AvatarFriend from "./avatarFriend"
 
-function Discussions({status})
+function Discussions({user})
 {
     const component = 
     <div>
@@ -9,14 +9,14 @@ function Discussions({status})
             <div className="Head">
                 <div className="avatar_name">
                     <div className="avatar">
-                        <AvatarFriend status={status}/>
+                        <AvatarFriend user={{avatar: user.avatar, status: user.status}}/>
                     </div>
 
                     <div className="name_online">
-                        <strong>Samy Tshibanda</strong>
+                        <strong>{user.name.nom +" "+ user.name.prenom}</strong>
                         <span>
                             {
-                                status === 1 ? "Online" : "Offline"
+                                user.status ? "Online" : "Offline"
                             }
                         </span>
                     </div>

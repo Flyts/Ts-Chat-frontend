@@ -1,9 +1,36 @@
 import Logo from "../pieces/logo"
 import {Link} from "react-router-dom"
 import {route} from "../../data/web"
+import { dataContext } from "../../data/context"
+import {useContext} from "react"
+import axios from "axios"
+import { routeApi } from "../../data/webApi"
 
 function Register()
 {
+    const {userLogin, setUserLogin} = useContext(dataContext);
+
+    function CreateUser(e)
+    {
+        const element = e.target,
+        data = {
+            nom: element.form["nom"].value,
+            prenom: element.form["prenom"].value,
+            email: element.form["email"].value,
+            sexe: element.form["sexe"].value,
+            password: element.form["password"].value
+        } 
+
+        axios.post(routeApi.createUser,
+        {...data},
+        {
+            "Content-type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        })
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error))
+    }
+
     const component = 
     <div id="Bloc">
         <div className="Back"></div>
@@ -48,12 +75,12 @@ function Register()
                     <input type="password" name="password" id="Password" placeholder="Tapez votre mot de passe"/>
                 </div>
 
-                <div className="input_label">
+                {/* <div className="input_label">
                     <input type="password" name="confirm-password" placeholder="Confirmer votre mot de passe"/>
-                </div>
+                </div> */}
 
                 <div className="send">
-                    <button>
+                    <button type="button" onClick={CreateUser}>
                         S'inscrire
                     </button>
                 </div>
