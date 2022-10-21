@@ -1,11 +1,10 @@
-
-
-
 #Dashboard
 {
     background-color: var(--bg-color);
     width: 100%;
     height: 100vh;
+    font-family: "Open Sans", sans-serif;
+    color: var(--color_txt);
 
     display: flex;
     justify-content: space-between;
@@ -24,14 +23,53 @@
     height: 100vh;
 }
 
-#Dashboard .Conversation
+#Dashboard .Conversation_FriendDetails
+{
+    width: 100%;
+
+    display: flex;
+    align-items: stretch;
+}
+
+#Dashboard .Conversation_FriendDetails .conversation
 {
     width: 100%;
     height: 100vh;
 }
 
-#Dashboard .FriendDetails
+#Dashboard .Conversation_FriendDetails .friendDetails
 {
     min-width: 300px;
     height: 100vh;
+}
+
+#Dashboard .Conversation_FriendDetails .noFriendSelected
+{
+    background-color: var(--white);
+    width: 100%;
+    padding: 30px 15px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#Dashboard .Conversation_FriendDetails .noFriendSelected .img
+{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    width: 300px;
+    height: 280px;
+}
+
+#Dashboard .Conversation_FriendDetails .noFriendSelected p
+{
+    padding: 0;
+    margin: 0;
+    opacity: .6;
+    font-size: 17px;
 }

@@ -21,14 +21,13 @@ function Login()
         } 
 
         axios.post(routeApi.SignIn,
-        {...data},
-        {
-            "Content-type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-        })
+            {...data},
+            routeApi.configHeader
+        )
         .then((res) => {
             localStorage.setItem("token", res.data.token)
             setUserLogin(res.data.user)
+            localStorage.setItem("userLogin", JSON.stringify(res.data.user))
             setToken(res.data.token)
         })
         .catch((error) => console.error(error))

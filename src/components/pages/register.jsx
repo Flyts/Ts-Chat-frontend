@@ -8,8 +8,6 @@ import { routeApi } from "../../data/webApi"
 
 function Register()
 {
-    const {userLogin, setUserLogin} = useContext(dataContext);
-
     function CreateUser(e)
     {
         const element = e.target,
@@ -22,14 +20,23 @@ function Register()
         } 
 
         axios.post(routeApi.createUser,
-        {...data},
+            {...data},
+            routeApi.configHeader
+        )
+        .then((res) => 
         {
-            "Content-type": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
+            localStorage.setItem("token", res.data.token)
+            localStorage.setItem("userLogin", JSON.stringify(res.data.user))
+            setUserLogin(res.data.user)
+            setToken(res.data.token)
         })
-        .then((data) => console.log(data))
         .catch((error) => console.error(error))
     }
+
+    const {
+        setUserLogin,
+        setToken
+    } = useContext(dataContext)
 
     const component = 
     <div id="Bloc">

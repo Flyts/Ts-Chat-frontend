@@ -9,8 +9,19 @@ import {useState, useEffect} from "react"
 
 function App() 
 {
-	const [userLogin, setUserLogin] = useState({}),
-		  [token, setToken]         = useState("")
+	const [userLogin, setUserLogin] = useState(null),
+		  [token, setToken]         = useState(""),
+		  [userSelected, setUserSelected] = useState(null),
+		  [messageFriend, setMessageFriend] = useState([])
+
+	useEffect(() =>
+	{
+		const storage = JSON.parse(localStorage.getItem("userLogin"))
+		setUserLogin(storage)
+
+		setUserSelected(JSON.parse(localStorage.getItem("userSelected")))
+		setMessageFriend(JSON.parse(localStorage.getItem("messageFriend")))
+	}, [])
 
 	useEffect(() => 
 	{
@@ -23,7 +34,12 @@ function App()
 	}, [])
 
 	const component = 
-	<dataContext.Provider value={{userLogin, setUserLogin, token, setToken}}>
+	<dataContext.Provider value={{
+		userLogin, setUserLogin, 
+		token, setToken, 
+		userSelected, setUserSelected,
+		messageFriend, setMessageFriend
+	}}>
 		<Routes>
 			<Route 
 				path={route.dashboard.link}
@@ -63,5 +79,5 @@ function App()
 	return component
 }
 
-export default App;
+export default App
 

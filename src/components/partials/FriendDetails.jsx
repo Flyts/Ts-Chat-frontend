@@ -1,35 +1,57 @@
+import { useContext } from "react"
+import { dataContext } from "../../data/context"
 import "../../public/css/partials/_friend_detail.css"
 import AvatarFriend from "../pieces/avatarFriend"
 
 function FriendDetails()
 {
+    const {userSelected} = useContext(dataContext)
+
     const component = 
     <div id="FriendDetails">
         <div className="Avatar">
-            <AvatarFriend/>
+            <AvatarFriend user={{avatar: userSelected.avatar, status: userSelected.status}}/>
         </div>
 
         <div className="Name">
-            <span>Samy Tshibanda</span>
+            <span>
+            {
+                userSelected.name.prenom+" "+userSelected.name.nom
+            }
+            </span>
         </div>
 
         <div className="Pays">
-            <span>Homme</span>
+            <span>{userSelected.sexe}</span>
         </div>
 
         <p className="Description">
-            Salut! je viens de m'inscrire sur Ts Chat. 
+            {
+                userSelected.desciption
+            }
         </p>
 
         <div className="Contacts">
             <div className="int">
-                <strong>Phone</strong>
-                <span>+243 824 176 842</span>
+            {
+                userSelected.phone ?
+                <>
+                    <strong>Phone</strong>
+                    <span>{userSelected.phone}</span>
+                </>
+                : null
+            }
             </div>
 
             <div className="int">
-                <strong>E-mail</strong>
-                <span>samytshibanda@gmail.com</span>
+            {
+                userSelected.email ?
+                <>
+                    <strong>E-mail</strong>
+                    <span>{userSelected.email}</span>
+                </>
+                : null
+            }
             </div>
         </div>
     </div>

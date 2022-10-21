@@ -13,13 +13,10 @@ function FriendsDiscussion()
 
     useEffect(() => 
     {
-        axios.get(routeApi.getFriends+"/"+userLogin.id,
-        {
-            headers:{
-                "Content-type" : "application/json",
-                "Authorization": localStorage.getItem("token")
-            }
-        })
+        axios.get(
+            routeApi.getFriends+"/"+userLogin.id, 
+            routeApi.configAuthHeader
+        )
         .then((data)   => setFriends(data.data.users))
         .catch((error) => console.error(error))
     }, [])
