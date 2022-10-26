@@ -9,15 +9,23 @@ import {useContext} from "react"
 
 function SideBar()
 {
-    const {userLogin, setUserLogin, setToken, setUserSelected} = useContext(dataContext)
+    const {
+            userLogin, setUserLogin, 
+            setToken, 
+            setConversationSelected,
+            setIdFriendSelected
+        } = useContext(dataContext)
 
     function Logout()
     {
         localStorage.removeItem("token")
         localStorage.removeItem("userLogin")
-        setUserLogin({})
+        localStorage.removeItem("conversationSelected")
+        localStorage.removeItem("idFriendSelected")
+        setUserLogin(null)
         setToken("")
-        setUserSelected("")
+        setConversationSelected(null)
+        setIdFriendSelected(null)
     }
 
     const component = 

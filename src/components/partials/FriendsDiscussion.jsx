@@ -33,7 +33,7 @@ function FriendsDiscussion()
         <div className="Discussions">
             {
                 friends.map((user) => [
-                    <Discussions user={user} key={user._id}/>
+                    <Discussions friend={user} key={user._id}/>
                 ])
             }
         </div>

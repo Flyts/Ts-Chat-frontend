@@ -5,39 +5,39 @@ import AvatarFriend from "../pieces/avatarFriend"
 
 function FriendDetails()
 {
-    const {userSelected} = useContext(dataContext)
+    const {conversationSelected} = useContext(dataContext)
 
     const component = 
     <div id="FriendDetails">
         <div className="Avatar">
-            <AvatarFriend user={{avatar: userSelected.avatar, status: userSelected.status}}/>
+            <AvatarFriend user={{avatar: conversationSelected.friend.avatar, status: conversationSelected.status}}/>
         </div>
 
         <div className="Name">
             <span>
             {
-                userSelected.name.prenom+" "+userSelected.name.nom
+                conversationSelected.friend.name.prenom+" "+conversationSelected.friend.name.nom
             }
             </span>
         </div>
 
         <div className="Pays">
-            <span>{userSelected.sexe}</span>
+            <span>{conversationSelected.friend.sexe}</span>
         </div>
 
         <p className="Description">
             {
-                userSelected.desciption
+                conversationSelected.friend.desciption
             }
         </p>
 
         <div className="Contacts">
             <div className="int">
             {
-                userSelected.phone ?
+                conversationSelected.friend.phone ?
                 <>
                     <strong>Phone</strong>
-                    <span>{userSelected.phone}</span>
+                    <span>{conversationSelected.friend.phone}</span>
                 </>
                 : null
             }
@@ -45,10 +45,10 @@ function FriendDetails()
 
             <div className="int">
             {
-                userSelected.email ?
+                conversationSelected.friend.email ?
                 <>
                     <strong>E-mail</strong>
-                    <span>{userSelected.email}</span>
+                    <span>{conversationSelected.friend.email}</span>
                 </>
                 : null
             }

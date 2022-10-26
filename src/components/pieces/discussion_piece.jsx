@@ -1,57 +1,110 @@
-import axios from "axios";
-import { useContext } from "react";
-import { dataContext } from "../../data/context";
-import { routeApi, configAuthHeader } from "../../data/webApi";
+import axios from "axios"
+import { useContext, useEffect, useState } from "react"
+import { dataContext } from "../../data/context"
+import { socket } from "../../data/socketIo"
+import { routeApi, configAuthHeader } from "../../data/webApi"
 import "../../public/css/partials/_discussion.css"
 import AvatarFriend from "./avatarFriend"
 
-function Discussions({user})
+function Discussions({friend})
 {
     function handleSelectDiscussion(e)
     {
-        const userSelected = JSON.stringify(user)
+        // axios.get(routeApi.getMessages, 
+        // {
+        //     configAuthHeader,
+        //     params: {
+        //         from: userLogin.id,
+        //         to: user._id
+        //     }
+        // })
+        // .then((res) => {
+        //     if(res.data.success === true)
+        //     {
+        //         setMessageFriend(res.data.messages)
+        //         localStorage.setItem("messageFriend", JSON.stringify(res.data.messages))
+        //     }
+        // })
+        // .catch((error) => console.error(error))
 
-        setUserSelected(user)
-        localStorage.setItem("userSelected", userSelected)
-
-        axios.get(routeApi.getMessages, 
+        if(friend._id !== idFriendSelected)
         {
-            configAuthHeader,
-            params: {
+            setIdFriendSelected(friend._id)
+            localStorage.setItem("idFriendSelected", friend._id)
+
+            setFriendSelect(friend)
+            // axios.post(routeApi.createConversation, 
+            // {
+            //     from: userLogin.id,
+            //     to: friend._id
+            // }, 
+            // {
+            //     configAuthHeader
+            // })
+            // .then((res)=> {
+            //     setMessageFriend(res.data.messages)
+            //     localStorage.setItem("messageFriend", JSON.stringify(res.data.messages))
+            // })
+            // .catch((error) => console.error(error))
+
+            socket.emit("join_or_create_conversation", {
                 from: userLogin.id,
-                to: user._id
-            }
-        })
-        .then((res) => {
-            if(res.data.success === true)
-            {
-                setMessageFriend(res.data.messages)
-                localStorage.setItem("messageFriend", JSON.stringify(res.data.messages))
-            }
-        })
-        .catch((error) => console.error(error))
+                to: friend._id
+            })
+        }
     }
 
     const {
-        userSelected, setUserSelected,
-        setMessageFriend,
-        userLogin
+        conversationSelected, setConversationSelected,
+        userLogin,
+        setIdFriendSelected, idFriendSelected
     } = useContext(dataContext)
 
+    const [friendSelect, setFriendSelect] = useState(null)
+
+
+    useEffect(()=>
+    {
+        socket.on("joined_conversation", (data) => 
+        {
+            const value = {
+                _id: data.conversation[0]._id,
+                friend: friendSelect,
+                messages: data.messages
+            }
+
+            console.log(friendSelect);
+
+            setConversationSelected(value)
+            localStorage.setItem("conversationSelected", JSON.stringify(value))
+        })
+
+        socket.on("created_conversation", (data) => 
+        {
+            console.log(data)
+        })
+
+        socket.on("error_join_or_create_conversation", (data) => 
+        {
+            console.error(data)
+        })
+    }, [socket])
+
+
     const component = 
-    <div className={user._id === (userSelected ? userSelected._id : null) ? "active" : ""}>
+    <div className={friend._id === idFriendSelected ? "active" : ""}>
         <div id="Discussions" onClick={handleSelectDiscussion}>
             <div className="Head">
                 <div className="avatar_name">
                     <div className="avatar">
-                        <AvatarFriend user={{avatar: user.avatar, status: user.status}}/>
+                        <AvatarFriend user={{avatar: friend.avatar, status: friend.status}}/>
                     </div>
 
                     <div className="name_online">
-                        <strong>{user.name.nom +" "+ user.name.prenom}</strong>
+                        <strong>{friend.name.nom +" "+ friend.name.prenom}</strong>
                         <span>
                             {
-                                user.status ? "Online" : "Offline"
+                                friend.status ? "Online" : "Offline"
                             }
                         </span>
                     </div>

@@ -11,16 +11,16 @@ function App()
 {
 	const [userLogin, setUserLogin] = useState(null),
 		  [token, setToken]         = useState(""),
-		  [userSelected, setUserSelected] = useState(null),
-		  [messageFriend, setMessageFriend] = useState([])
+		  [conversationSelected, setConversationSelected] = useState(null),
+		  [idFriendSelected, setIdFriendSelected] = useState("")
 
 	useEffect(() =>
 	{
 		const storage = JSON.parse(localStorage.getItem("userLogin"))
 		setUserLogin(storage)
-
-		setUserSelected(JSON.parse(localStorage.getItem("userSelected")))
-		setMessageFriend(JSON.parse(localStorage.getItem("messageFriend")))
+		
+		setConversationSelected(JSON.parse(localStorage.getItem("conversationSelected")))
+		setIdFriendSelected(localStorage.getItem("idFriendSelected"))
 	}, [])
 
 	useEffect(() => 
@@ -37,8 +37,8 @@ function App()
 	<dataContext.Provider value={{
 		userLogin, setUserLogin, 
 		token, setToken, 
-		userSelected, setUserSelected,
-		messageFriend, setMessageFriend
+		conversationSelected, setConversationSelected,
+		idFriendSelected, setIdFriendSelected
 	}}>
 		<Routes>
 			<Route 

@@ -6,7 +6,8 @@ export const routeApi = {
     createUser: `${linkApi}/api/register`,
     SignIn: `${linkApi}/api/login`,
     sendMessage: `${linkApi}/api/message`,
-    getMessages: `${linkApi}/api/messages`
+    getMessages: `${linkApi}/api/messages`,
+    createConversation: `${linkApi}/api/conversation`
 }
 
 export const configAuthHeader = {

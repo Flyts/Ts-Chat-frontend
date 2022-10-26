@@ -11,7 +11,7 @@ import new_message from "../../public/img/new_message_bro.svg"
 
 function Dashboard()
 {
-    const {userSelected} = useContext(dataContext)
+    const {conversationSelected, idFriendSelected} = useContext(dataContext)
     const component = 
     <div id="Dashboard">
         <div className="SideBar">
@@ -21,10 +21,10 @@ function Dashboard()
         <div className="Friends">
             <FriendsDiscussion />
         </div>
-
+        
         <div className="Conversation_FriendDetails">
         {
-            userSelected ?
+            conversationSelected ?
             <>
                 <div className="conversation">
                     <Conversation />

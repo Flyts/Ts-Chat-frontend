@@ -12,6 +12,7 @@ import axios from "axios"
 import { routeApi } from "../../data/webApi"
 import moment from "moment/moment"
 import EmojiPicker from "emoji-picker-react"
+import { socket } from "../../data/socketIo"
 
 function Conversation()
 {
@@ -48,34 +49,44 @@ function Conversation()
 
     function handleSendMessage(e)
     {
-        if(message)
-        {
-            axios.post(
-                routeApi.sendMessage,
-                {
-                    ...message,
-                    from: userLogin.id,
-                    to: userSelected._id
-                },
-                routeApi.configAuthHeader
-            )
-            .then((res) => {
-                if(res.data.success === true)
-                {
-                    setEmojiBlock(false)
-                    setMessage(null)
-                    setMessageFriend(res.data.messages)
-                    localStorage.setItem("messageFriend", JSON.stringify(res.data.messages))
-                }
-            })
-            .catch((error) => console.error(error))
-        }
+        // if(message)
+        // {
+        //     axios.post(
+        //         routeApi.sendMessage,
+        //         {
+        //             ...message,
+        //             from: userLogin.id,
+        //             to: conversationSelected._id
+        //         },
+        //         routeApi.configAuthHeader
+        //     )
+        //     .then((res) => {
+        //         if(res.data.success === true)
+        //         {
+        //             setEmojiBlock(false)
+        //             setMessage(null)
+        //             setconversationSelected.messages(res.data.messages)
+        //             localStorage.setItem("conversationSelected.messages", JSON.stringify(res.data.messages))
+        //         }
+        //     })
+        //     .catch((error) => console.error(error))
+
+        //     // socket.emit("sendMessage", {message: message.value})
+        // }
     }
+
+    useEffect(()=>
+    {
+        socket.on("receiveMessage", (data)=>
+        {
+            alert(data.message)
+        })
+    }, [socket])
 
 
     const {
-        userSelected, userLogin, 
-        messageFriend, setMessageFriend
+        conversationSelected, 
+        userLogin
     } = useContext(dataContext)
     const [message, setMessage] = useState(null)
     const [inputSent, setInputSent] = useState(null)
@@ -85,7 +96,7 @@ function Conversation()
     useEffect(() => 
     {
         bodyBlock.current.scrollTo(0, bodyBlock.current.scrollHeight)
-    }, [messageFriend])
+    }, [conversationSelected.messages])
 
 
     const component = 
@@ -93,21 +104,21 @@ function Conversation()
         <div className="Top">
             <div className="friend">
                 <div className="avatar">
-                    <AvatarFriend user={{avatar:userSelected.avatar, status:userSelected.status}}/>
+                    <AvatarFriend user={{avatar:conversationSelected.friend.avatar, status:conversationSelected.friend.status}}/>
                 </div>
 
                 <div className="name_online">
                     <strong>
                     {
-                        userSelected.name.prenom+" "+userSelected.name.nom
+                        conversationSelected.friend.name.prenom+" "+conversationSelected.friend.name.nom
                     }
                     </strong>
                     
                     <div className="online">
-                        <span>{userSelected.status ? "online" : "offline"}</span>
+                        <span>{conversationSelected.friend.status ? "online" : "offline"}</span>
                         
                         {
-                            !userSelected.status ?
+                            !conversationSelected.friend.status ?
                                 <span>last seen 3 hours ago</span>
                             : null
                         }
@@ -123,9 +134,9 @@ function Conversation()
 
         <div className="Body" ref={bodyBlock}>
             {
-                messageFriend !== null 
+                conversationSelected !== null 
                 ?
-                    messageFriend.map((message) => [
+                    conversationSelected.messages.map((message) => [
                         <div key={message._id} className={message.from === userLogin.id ? "me" : "friend"}>
                             <p>
                                 {message.message}
