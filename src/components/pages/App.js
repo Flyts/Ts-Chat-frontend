@@ -12,7 +12,12 @@ function App()
 	const [userLogin, setUserLogin] = useState(null),
 		  [token, setToken]         = useState(""),
 		  [conversationSelected, setConversationSelected] = useState(null),
-		  [idFriendSelected, setIdFriendSelected] = useState("")
+		  [idFriendSelected, setIdFriendSelected] = useState(""),
+          [friends, setFriends] = useState([]),
+		  [loader, setLoader] = useState(false),
+		  [dataNotification, setDataNotification] = useState({
+			status: false
+		  })
 
 	useEffect(() =>
 	{
@@ -21,6 +26,7 @@ function App()
 		
 		setConversationSelected(JSON.parse(localStorage.getItem("conversationSelected")))
 		setIdFriendSelected(localStorage.getItem("idFriendSelected"))
+		setFriends(JSON.parse(localStorage.getItem("friends")))
 	}, [])
 
 	useEffect(() => 
@@ -38,7 +44,10 @@ function App()
 		userLogin, setUserLogin, 
 		token, setToken, 
 		conversationSelected, setConversationSelected,
-		idFriendSelected, setIdFriendSelected
+		idFriendSelected, setIdFriendSelected,
+		friends, setFriends,
+		dataNotification, setDataNotification,
+		loader, setLoader
 	}}>
 		<Routes>
 			<Route 

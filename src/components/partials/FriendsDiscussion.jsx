@@ -8,8 +8,10 @@ import { dataContext } from "../../data/context"
 
 function FriendsDiscussion()
 {
-    const {userLogin} = useContext(dataContext),
-          [friends, setFriends] = useState([])
+    const {
+        userLogin,
+        friends, setFriends
+    } = useContext(dataContext)
 
     useEffect(() => 
     {
@@ -17,7 +19,11 @@ function FriendsDiscussion()
             routeApi.getFriends+"/"+userLogin.id, 
             routeApi.configAuthHeader
         )
-        .then((data)   => setFriends(data.data.users))
+        .then((res) => 
+        {
+            setFriends(res.data.users)
+            localStorage.setItem("friends", JSON.stringify(res.data.users))
+        })
         .catch((error) => console.error(error))
     }, [])
 
@@ -32,9 +38,11 @@ function FriendsDiscussion()
 
         <div className="Discussions">
             {
-                friends.map((user) => [
-                    <Discussions friend={user} key={user._id}/>
-                ])
+                friends ?
+                    friends.map((user) => [
+                        <Discussions friend={user} key={user._id}/>
+                    ])
+                : null
             }
         </div>
     </div>

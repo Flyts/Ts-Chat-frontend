@@ -8,10 +8,17 @@ import {useContext} from "react"
 import axios from "axios"
 import { dataContext } from "../../data/context"
 import new_message from "../../public/img/new_message_bro.svg"
+import Notification from "../partials/Notification"
+import Loader from "../pieces/Loader"
 
 function Dashboard()
 {
-    const {conversationSelected, idFriendSelected} = useContext(dataContext)
+    const {
+        conversationSelected, idFriendSelected, 
+        dataNotification,
+        loader
+    } = useContext(dataContext)
+
     const component = 
     <div id="Dashboard">
         <div className="SideBar">
@@ -21,18 +28,25 @@ function Dashboard()
         <div className="Friends">
             <FriendsDiscussion />
         </div>
-        
+
         <div className="Conversation_FriendDetails">
         {
             conversationSelected ?
             <>
-                <div className="conversation">
-                    <Conversation />
-                </div>
+            {
+                !loader ?
+                <>
+                    <div className="conversation">
+                        <Conversation />
+                    </div>
 
-                <div className="friendDetails">
-                    <FriendDetails />
-                </div>
+                    <div className="friendDetails">
+                        <FriendDetails />
+                    </div>
+                </>
+                :
+                <Loader />
+            }
             </>
             :
             <>
@@ -45,6 +59,12 @@ function Dashboard()
             </> 
         }
         </div>
+
+        {
+            dataNotification.status ?
+                <Notification data={dataNotification}></Notification>
+            : null
+        }
     </div>
 
     return component

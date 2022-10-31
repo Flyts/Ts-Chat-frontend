@@ -22,13 +22,15 @@ function Conversation()
             type: "text",
             value: message ? message.value + e.emoji : e.emoji
         })
+        setEmojiBlock(false)
     }
 
     function handleSelectFile(e)
     {
+        fileInput.current.click()
     }
 
-    function handleBlockEmoji(value)
+    function handleBlockEmoji()
     {
         emojiBlock === false 
         ?
@@ -49,54 +51,83 @@ function Conversation()
 
     function handleSendMessage(e)
     {
-        // if(message)
-        // {
-        //     axios.post(
-        //         routeApi.sendMessage,
-        //         {
-        //             ...message,
-        //             from: userLogin.id,
-        //             to: conversationSelected._id
-        //         },
-        //         routeApi.configAuthHeader
-        //     )
-        //     .then((res) => {
-        //         if(res.data.success === true)
-        //         {
-        //             setEmojiBlock(false)
-        //             setMessage(null)
-        //             setconversationSelected.messages(res.data.messages)
-        //             localStorage.setItem("conversationSelected.messages", JSON.stringify(res.data.messages))
-        //         }
-        //     })
-        //     .catch((error) => console.error(error))
-
-        //     // socket.emit("sendMessage", {message: message.value})
-        // }
-    }
-
-    useEffect(()=>
-    {
-        socket.on("receiveMessage", (data)=>
+        if(message)
         {
-            alert(data.message)
-        })
-    }, [socket])
+            socket.emit("sendMessage", {
+                from: userLogin.id,
+                to: conversationSelected.friend._id,
+                message: message,
+                token,
+                conversation_id: conversationSelected._id
+            })
+        }
+    }
 
 
     const {
-        conversationSelected, 
-        userLogin
+        conversationSelected, setConversationSelected,
+        userLogin,
+        token
     } = useContext(dataContext)
     const [message, setMessage] = useState(null)
     const [inputSent, setInputSent] = useState(null)
     const [emojiBlock, setEmojiBlock] = useState(false)
-    const bodyBlock = useRef()
+    const bodyBlock = useRef(),
+          fileInput = useRef()
+
+
+    useEffect(() => 
+    {
+        socket.on("sended_message", (data)=>
+        {
+            const conversation = (JSON.parse(localStorage.getItem("conversationSelected")))
+
+            if(userLogin.id === data.sender_id && conversation._id === data.conversation_id)
+            {
+                const value = {
+                    _id: conversation._id,
+                    friend: conversationSelected.friend,
+                    messages: data.messages
+                }
+
+                setConversationSelected(value)
+                localStorage.setItem("conversationSelected", JSON.stringify(value))
+                setEmojiBlock(false)
+                setMessage(null)
+            }
+        })
+
+        socket.on("receive_message", (data) =>
+        {
+            const conversation = (JSON.parse(localStorage.getItem("conversationSelected")))
+
+            if(conversation._id === data.conversation_id)
+            {
+                const value = {
+                    _id: conversation._id,
+                    friend: conversation.friend,
+                    messages: data.messages
+                }
+
+                setConversationSelected(value)
+                localStorage.setItem("conversationSelected", JSON.stringify(value))
+            }
+        })
+    }, [socket])
 
     useEffect(() => 
     {
         bodyBlock.current.scrollTo(0, bodyBlock.current.scrollHeight)
     }, [conversationSelected.messages])
+
+    useEffect(() => 
+    {
+        socket.emit("login_after_reload_page",
+        {
+            conversation_id: conversationSelected._id,
+            token: token
+        })
+    }, [])
 
 
     const component = 
@@ -155,6 +186,18 @@ function Conversation()
                     ])
                 : null
             }
+
+            {
+                <div className="image_seleted">
+                    <div className="top"></div>
+
+                    <div className="image"></div>
+
+                    <div className="details_image">
+                        <span>samy</span>
+                    </div>
+                </div>  
+            }
         </div>
 
         <div className="Bottom">
@@ -176,7 +219,7 @@ function Conversation()
 
             <div className="int">
                 <div className="file">
-                    <input type="file" name="file" />
+                    <input type="file" name="file" ref={fileInput}/>
                     <ImAttachment onClick={handleSelectFile} className="icon" title="Envoyer un fichier"/>
                 </div>
 

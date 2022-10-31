@@ -10,7 +10,7 @@ import {useContext} from "react"
 
 function Login()
 {
-    const {setUserLogin, setToken} = useContext(dataContext)
+    const {setUserLogin, setToken, setDataNotification} = useContext(dataContext)
 
     function SignIn(e)
     {
@@ -29,6 +29,11 @@ function Login()
             setUserLogin(res.data.user)
             localStorage.setItem("userLogin", JSON.stringify(res.data.user))
             setToken(res.data.token)
+            setDataNotification({
+                status: true,
+                message: "Bonjour " + res.data.user.name.prenom + " " + res.data.user.name.nom,
+                success: true
+            })
         })
         .catch((error) => console.error(error))
     }

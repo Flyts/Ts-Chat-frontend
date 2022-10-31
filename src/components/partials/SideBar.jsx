@@ -13,19 +13,19 @@ function SideBar()
             userLogin, setUserLogin, 
             setToken, 
             setConversationSelected,
-            setIdFriendSelected
+            setIdFriendSelected,
+            setFriends
         } = useContext(dataContext)
 
     function Logout()
     {
-        localStorage.removeItem("token")
-        localStorage.removeItem("userLogin")
-        localStorage.removeItem("conversationSelected")
-        localStorage.removeItem("idFriendSelected")
+        localStorage.clear()
+
         setUserLogin(null)
         setToken("")
         setConversationSelected(null)
         setIdFriendSelected(null)
+        setFriends([])
     }
 
     const component = 

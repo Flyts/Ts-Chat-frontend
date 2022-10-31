@@ -8,60 +8,32 @@ import AvatarFriend from "./avatarFriend"
 
 function Discussions({friend})
 {
-    function handleSelectDiscussion(e)
-    {
-        // axios.get(routeApi.getMessages, 
-        // {
-        //     configAuthHeader,
-        //     params: {
-        //         from: userLogin.id,
-        //         to: user._id
-        //     }
-        // })
-        // .then((res) => {
-        //     if(res.data.success === true)
-        //     {
-        //         setMessageFriend(res.data.messages)
-        //         localStorage.setItem("messageFriend", JSON.stringify(res.data.messages))
-        //     }
-        // })
-        // .catch((error) => console.error(error))
-
-        if(friend._id !== idFriendSelected)
-        {
-            setIdFriendSelected(friend._id)
-            localStorage.setItem("idFriendSelected", friend._id)
-
-            setFriendSelect(friend)
-            // axios.post(routeApi.createConversation, 
-            // {
-            //     from: userLogin.id,
-            //     to: friend._id
-            // }, 
-            // {
-            //     configAuthHeader
-            // })
-            // .then((res)=> {
-            //     setMessageFriend(res.data.messages)
-            //     localStorage.setItem("messageFriend", JSON.stringify(res.data.messages))
-            // })
-            // .catch((error) => console.error(error))
-
-            socket.emit("join_or_create_conversation", {
-                from: userLogin.id,
-                to: friend._id
-            })
-        }
-    }
-
     const {
         conversationSelected, setConversationSelected,
         userLogin,
-        setIdFriendSelected, idFriendSelected
+        setIdFriendSelected, idFriendSelected,
+        setDataNotification,
+        setLoader,
+        token
     } = useContext(dataContext)
 
-    const [friendSelect, setFriendSelect] = useState(null)
 
+    function handleSelectDiscussion(e)
+    {
+        if(friend._id !== idFriendSelected)
+        {
+            setIdFriendSelected(friend._id)
+            setLoader(true)
+            localStorage.setItem("idFriendSelected", friend._id)
+
+            socket.emit("join_or_create_conversation", {
+                from: userLogin.id,
+                to: friend._id,
+                friend: friend,
+                token
+            })
+        }
+    }
 
     useEffect(()=>
     {
@@ -69,19 +41,31 @@ function Discussions({friend})
         {
             const value = {
                 _id: data.conversation[0]._id,
-                friend: friendSelect,
+                friend: data.friend,
                 messages: data.messages
             }
 
-            console.log(friendSelect);
-
-            setConversationSelected(value)
             localStorage.setItem("conversationSelected", JSON.stringify(value))
+            setConversationSelected(value)
+            setLoader(false)
         })
 
         socket.on("created_conversation", (data) => 
         {
-            console.log(data)
+            const value = {
+                _id: data.conversation._id,
+                friend: data.friend,
+                messages: data.messages
+            }
+
+            setConversationSelected(value)
+            localStorage.setItem("conversationSelected", JSON.stringify(value))
+            setLoader(false)
+            setDataNotification({
+                status: true,
+                message: data.message,
+                success: true
+            })
         })
 
         socket.on("error_join_or_create_conversation", (data) => 
