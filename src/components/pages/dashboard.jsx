@@ -3,9 +3,7 @@ import SideBar from "../partials/SideBar"
 import FriendsDiscussion from "../partials/FriendsDiscussion"
 import Conversation from "../partials/Conversation"
 import FriendDetails from "../partials/FriendDetails"
-import { routeApi } from "../../data/webApi"
 import {useContext} from "react"
-import axios from "axios"
 import { dataContext } from "../../data/context"
 import new_message from "../../public/img/new_message_bro.svg"
 import Notification from "../partials/Notification"
@@ -14,7 +12,7 @@ import Loader from "../pieces/Loader"
 function Dashboard()
 {
     const {
-        conversationSelected, idFriendSelected, 
+        conversationSelected, 
         dataNotification,
         loader
     } = useContext(dataContext)
@@ -45,9 +43,9 @@ function Dashboard()
                     </div>
                 </>
                 :
-                <Loader />
+                <Loader screen="other"/>
             }
-            </>
+            </> 
             :
             <>
                 <div className="noFriendSelected">
@@ -56,6 +54,8 @@ function Dashboard()
                         Clicker sur un ami pour démarrer un conversation.
                     </p>
                 </div>
+
+                <Loader screen="mobil"/>
             </> 
         }
         </div>

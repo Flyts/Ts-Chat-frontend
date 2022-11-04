@@ -1,6 +1,7 @@
 import "../../public/css/partials/_conversation.css"
 import {IoIosCall} from "react-icons/io"
-import {IoIosOptions} from "react-icons/io"
+import {IoMdClose} from "react-icons/io"
+import {GrContactInfo} from "react-icons/gr"
 import {ImAttachment} from "react-icons/im"
 import {BsFillEmojiHeartEyesFill} from "react-icons/bs"
 import {FaMicrophone} from "react-icons/fa"
@@ -13,15 +14,21 @@ import { routeApi } from "../../data/webApi"
 import moment from "moment/moment"
 import EmojiPicker from "emoji-picker-react"
 import { socket } from "../../data/socketIo"
+import formatSizeUnits from "../../data/functions"
+import {BsArrowLeftSquare} from "react-icons/bs"
 
 function Conversation()
 {
+    function handleCloseBlockImg()
+    {
+        setFilesSelected(null)
+        setActiveSelectImgBlc(false)
+    }
+
     function handleSelectEmoji(e)
     {
-        setMessage({
-            type: "text",
-            value: message ? message.value + e.emoji : e.emoji
-        })
+        setMessage(message + e.emoji)
+
         setEmojiBlock(false)
     }
 
@@ -39,27 +46,64 @@ function Conversation()
             setEmojiBlock(false)
     }
 
-    // function handleChange(e)
-    // {
-    //     setMessage({
-    //         type: e.target.type,
-    //         value: e.target.value
-    //     })
+    function handleCloseDiscution()
+    {
+        setLoader(false)
+        document.body.classList.remove("Select_discution")
 
-    //     setInputSent(e.target)
-    // }
+        setConversationSelected(null)
+        setIdFriendSelected(null)
+        localStorage.removeItem("conversationSelected")
+    }
+
+    function handleShowInfoFriend()
+    {
+        document.body.classList.add("Show_info_friend")
+    }
 
     function handleSendMessage(e)
     {
-        if(message)
+        if(message || filesSelected.length !== 0)
         {
-            socket.emit("sendMessage", {
-                from: userLogin.id,
-                to: conversationSelected.friend._id,
-                message: message,
-                token,
-                conversation_id: conversationSelected._id
-            })
+            if(filesSelected)
+            {
+                const reader = new FileReader()
+
+                reader.onload = function(evt) 
+                {
+                    const file = evt.target.result
+    
+                    socket.emit("sendMessage", {
+                        from: userLogin.id,
+                        to: conversationSelected.friend._id,
+                        message: message ? message : null,
+                        file,
+                        token,
+                        conversation_id: conversationSelected._id
+                    })
+                }
+                reader.readAsDataURL(filesSelected[0])
+            }
+            else
+            {
+                socket.emit("sendMessage", {
+                    from: userLogin.id,
+                    to: conversationSelected.friend._id,
+                    message: message ? message : null,
+                    file: null,
+                    token,
+                    conversation_id: conversationSelected._id
+                })
+            }
+
+            // socket.emit("sendMessage", {
+            //     from: userLogin.id,
+            //     to: conversationSelected.friend._id,
+            //     message: message,
+            //     file: filesSelected[0],
+            //     token,
+            //     conversation_id: conversationSelected._id
+            // })
         }
     }
 
@@ -67,13 +111,22 @@ function Conversation()
     const {
         conversationSelected, setConversationSelected,
         userLogin,
-        token
+        token,
+        setIdFriendSelected,
+        setLoader
     } = useContext(dataContext)
-    const [message, setMessage] = useState(null)
+
+    const [message, setMessage] = useState("")
     const [inputSent, setInputSent] = useState(null)
     const [emojiBlock, setEmojiBlock] = useState(false)
+    const [filesSelected, setFilesSelected] = useState("")
+    const [activeSelectImgBlc, setActiveSelectImgBlc] = useState(false)
+
     const bodyBlock = useRef(),
-          fileInput = useRef()
+          fileInput = useRef(),
+          sizeFile = useRef(),
+          typeFile = useRef(),
+          blocToDisplayImg = useRef()
 
 
     useEffect(() => 
@@ -92,8 +145,11 @@ function Conversation()
 
                 setConversationSelected(value)
                 localStorage.setItem("conversationSelected", JSON.stringify(value))
+
                 setEmojiBlock(false)
-                setMessage(null)
+                setMessage("")
+                setFilesSelected()
+                setActiveSelectImgBlc(false)
             }
         })
 
@@ -113,6 +169,14 @@ function Conversation()
                 localStorage.setItem("conversationSelected", JSON.stringify(value))
             }
         })
+
+        socket.on("error_get_messages", (error) => {
+            console.error(error)
+        })
+
+        socket.on("error_sended_message", (error) => {
+            console.error(error)
+        })
     }, [socket])
 
     useEffect(() => 
@@ -129,11 +193,43 @@ function Conversation()
         })
     }, [])
 
+    useEffect(() => {
+        if(filesSelected)
+        {
+            if(filesSelected.length !== 0)
+            {
+                setActiveSelectImgBlc(true)
+
+                let files_Selected = filesSelected[0]
+                let fileReader     = new FileReader()
+
+                fileReader.onload = function(FileLoadEvent)
+                {
+                    let srcData = FileLoadEvent.target.result
+
+                    blocToDisplayImg.current.style.backgroundImage = 'url(' +srcData+ ')'
+                }
+                fileReader.readAsDataURL(files_Selected)
+
+                sizeFile.current.innerText = formatSizeUnits(files_Selected.size)
+                typeFile.current.innerText = files_Selected.type
+            }
+            else
+            {
+                setActiveSelectImgBlc(false)
+            }
+        }
+    }, [filesSelected])
+
 
     const component = 
-    <div id="Conversation">
+    <div id="Conversation" className={!activeSelectImgBlc ? null : "Active_img_selected"}>
         <div className="Top">
             <div className="friend">
+                <button className="retour" title="Retour" onClick={handleCloseDiscution}>
+                    <BsArrowLeftSquare/>
+                </button>
+
                 <div className="avatar">
                     <AvatarFriend user={{avatar:conversationSelected.friend.avatar, status:conversationSelected.friend.status}}/>
                 </div>
@@ -158,8 +254,8 @@ function Conversation()
             </div>
 
             <div className="options">
-                <IoIosCall className="icon"/>
-                <IoIosOptions className="icon option"/>
+                {/* <IoIosCall className="icon"/> */}
+                <GrContactInfo onClick={handleShowInfoFriend} className="icon option" title={"Info "+ conversationSelected.friend.name.prenom+" "+conversationSelected.friend.name.nom}/>
             </div>
         </div>
 
@@ -169,15 +265,29 @@ function Conversation()
                 ?
                     conversationSelected.messages.map((message) => [
                         <div key={message._id} className={message.from === userLogin.id ? "me" : "friend"}>
-                            <p>
-                                {message.message}
+                            <div className="txt_img">
+                                {
+                                    message.type_file === "image" ?
+                                        <div className="img" style={{backgroundImage: `url(${message.link_file})`}}></div>
+                                    : null
+                                }
+                                
+                                {
+                                    message.message ?
+                                        <strong>{message.message}</strong>
+                                    : null
+                                }
                                 <i></i>
-                            </p>
+                            </div>
                             <span>
                             {
                                 moment(Date.now()).format("MMM Do YY") === moment(message.createdAt).format("MMM Do YY")
                                 ?
-                                    moment(message.createdAt).fromNow()
+                                    moment(Date.now()).format("h") === moment(message.createdAt).format("h")
+                                    ?
+                                        moment(message.createdAt).fromNow()
+                                    :
+                                        moment(Date.now()).format("h:s")
                                 :
                                     moment(message.createdAt).format("DD/MM/YYYY - h:s")
                             }
@@ -186,21 +296,31 @@ function Conversation()
                     ])
                 : null
             }
-
-            {
-                <div className="image_seleted">
-                    <div className="top"></div>
-
-                    <div className="image"></div>
-
-                    <div className="details_image">
-                        <span>samy</span>
-                    </div>
-                </div>  
-            }
         </div>
 
         <div className="Bottom">
+            <div className="image_seleted">
+                <div className="top">
+                    <button onClick={handleCloseBlockImg} title="Fermer le bloc image">
+                        <IoMdClose />
+                    </button>
+                </div>
+
+                <div className="image" ref={blocToDisplayImg}></div>
+
+                <div className="details_image">
+                    <div className="part">
+                        <strong>Size : </strong>
+                        <span ref={sizeFile}></span>
+                    </div>
+
+                    <div className="part">
+                        <strong>Type : </strong>
+                        <span ref={typeFile}></span>
+                    </div>
+                </div>
+            </div>  
+
             {
                 emojiBlock
                 ?
@@ -219,11 +339,11 @@ function Conversation()
 
             <div className="int">
                 <div className="file">
-                    <input type="file" name="file" ref={fileInput}/>
+                    <input type="file" name="file" onChange={(e) => setFilesSelected(e.target.files)} ref={fileInput}/>
                     <ImAttachment onClick={handleSelectFile} className="icon" title="Envoyer un fichier"/>
                 </div>
 
-                <input type="text" value={message ? message.value : ""} name="message" onChange={(e)=>setMessage({type: e.target.type, value: e.target.value})} className="message" placeholder="Tapez votre message..."/>
+                <input type="text" value={message} name="message" onChange={(e)=>setMessage(e.target.value)} className="message" placeholder="Tapez votre message..."/>
 
                 <div className="options">
                     <BsFillEmojiHeartEyesFill onClick={handleBlockEmoji} className="icon" title="Envoyer un emoji"/>
@@ -231,7 +351,7 @@ function Conversation()
                 </div>
 
                 <button className="send" onClick={handleSendMessage}>
-                    <RiSendPlaneFill title="Envoyer un message"/>
+                    <RiSendPlaneFill title="Envoyer votre message"/>
                 </button>
             </div>
         </div>

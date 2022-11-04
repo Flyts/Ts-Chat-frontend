@@ -31,7 +31,7 @@ function FriendsDiscussion()
     <div id="Friends">
         <div className="Top">
             <div className="search">
-                <label className="icon" for="Search"><IoSearch/></label>
+                <label className="icon" htmlFor="Search"><IoSearch/></label>
                 <input type="search" name="search" id="Search" placeholder="Tapez votre recherche"/>
             </div>
         </div>

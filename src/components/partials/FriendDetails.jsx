@@ -1,14 +1,27 @@
 import { useContext } from "react"
+import { BsArrowLeftSquare } from "react-icons/bs"
 import { dataContext } from "../../data/context"
 import "../../public/css/partials/_friend_detail.css"
 import AvatarFriend from "../pieces/avatarFriend"
 
 function FriendDetails()
 {
+    function handleCloseInfoFriend()
+    {
+        document.body.classList.remove("Show_info_friend")
+    }
+
+
     const {conversationSelected} = useContext(dataContext)
 
     const component = 
     <div id="FriendDetails">
+        <div className="Close">
+            <button className="retour" title="Retour" onClick={handleCloseInfoFriend}>
+                <BsArrowLeftSquare/>
+            </button>
+        </div>
+
         <div className="Avatar">
             <AvatarFriend user={{avatar: conversationSelected.friend.avatar, status: conversationSelected.status}}/>
         </div>

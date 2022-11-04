@@ -76,3 +76,76 @@
     opacity: .6;
     font-size: 17px;
 }
+
+
+#Dashboard .Conversation_FriendDetails .Loader_mobil
+{
+    display: none;
+}
+
+
+
+
+
+
+
+/** MEDIA QUERY **/
+    /**-- Ecran(<991px) --**/
+@media all and (max-width: 991px) 
+{
+    #Dashboard .Friends
+    {
+        width: 100%;
+    }
+
+    #Dashboard .Conversation_FriendDetails
+    {
+        position: absolute;
+        top: 0;
+        right: -100%;
+
+        width: calc(100% - 80px);
+        height: 100vh;
+
+        transition: .3s ease-in-out;
+
+        z-index: 4;
+    }
+    .Select_discution #Dashboard .Conversation_FriendDetails
+    {
+        right: 0%;
+    }
+
+
+    #Dashboard .Conversation_FriendDetails .conversation
+    {
+        width: 100%;
+    }
+
+    #Dashboard .Conversation_FriendDetails .friendDetails
+    {
+        position: absolute;
+        top: 0;
+        right: -100%;
+
+        width: 100%;
+
+        transition: .3s ease-in-out;
+
+        z-index: 3;
+    }
+    .Show_info_friend #Dashboard .Conversation_FriendDetails .friendDetails
+    {
+        right: 0;
+    }
+
+    #Dashboard .Conversation_FriendDetails .noFriendSelected
+    {
+        display: none;
+    }
+}
+
+@media all and (max-width: 771px) 
+{
+}
+    /**-- #FIN Ecran(<991px) --**/

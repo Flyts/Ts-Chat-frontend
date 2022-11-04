@@ -22,8 +22,9 @@ function Discussions({friend})
     {
         if(friend._id !== idFriendSelected)
         {
-            setIdFriendSelected(friend._id)
+            document.body.classList.add("Select_discution")
             setLoader(true)
+            setIdFriendSelected(friend._id)
             localStorage.setItem("idFriendSelected", friend._id)
 
             socket.emit("join_or_create_conversation", {
