@@ -5,18 +5,54 @@ import axios from "axios"
 import { useEffect, useContext, useState } from "react"
 import { routeApi } from "../../data/webApi"
 import { dataContext } from "../../data/context"
+import Loader from "../pieces/Loader"
 
 function FriendsDiscussion()
 {
+    function handleSearchFriend(value)
+    {
+        if(value.length)
+        {
+            if(!allFriends) setAllFriends(friends)
+
+            axios.get(
+                routeApi.getSearchFriend, 
+                {
+                    params: {
+                        search: value,
+                        id: userLogin._id
+                    }
+                },
+                routeApi.configAuthHeader
+            )
+            .then((res) => {
+                setFriends(res.data.users)
+                setText(res.data.message)
+            })
+            .catch((errors) => console.error(errors))
+        }
+        else
+        {
+            setFriends(allFriends)
+            setAllFriends(null)
+            setText(noUser)
+        }
+    }
+
     const {
         userLogin,
         friends, setFriends
     } = useContext(dataContext)
+    
+    const noUser = "Pas d'utilisateur"
+    const [search, setSearch] = useState("")
+    const [allFriends, setAllFriends] = useState(null)
+    const [text, setText] = useState(noUser)
 
     useEffect(() => 
     {
         axios.get(
-            routeApi.getFriends+"/"+userLogin.id, 
+            routeApi.getFriends+"/"+userLogin._id, 
             routeApi.configAuthHeader
         )
         .then((res) => 
@@ -32,17 +68,24 @@ function FriendsDiscussion()
         <div className="Top">
             <div className="search">
                 <label className="icon" htmlFor="Search"><IoSearch/></label>
-                <input type="search" name="search" id="Search" placeholder="Tapez votre recherche"/>
+                <input type="search" onChange={(e) => 
+                {
+                    setSearch(e.target.value)
+                    handleSearchFriend(e.target.value)
+                }} value={search} name="search" id="Search" placeholder="Tapez votre recherche"/>
             </div>
         </div>
 
         <div className="Discussions">
             {
-                friends ?
+                friends && friends.length?
                     friends.map((user) => [
                         <Discussions friend={user} key={user._id}/>
                     ])
-                : null
+                : 
+                    <div className="aucun">
+                        <h4>{text}</h4>
+                    </div> 
             }
         </div>
     </div>

@@ -237,7 +237,7 @@ function Conversation()
                 <div className="name_online">
                     <strong>
                     {
-                        conversationSelected.friend.name.prenom+" "+conversationSelected.friend.name.nom
+                        conversationSelected.friend.prenom+" "+conversationSelected.friend.nom
                     }
                     </strong>
                     
@@ -255,7 +255,7 @@ function Conversation()
 
             <div className="options">
                 {/* <IoIosCall className="icon"/> */}
-                <GrContactInfo onClick={handleShowInfoFriend} className="icon option" title={"Info "+ conversationSelected.friend.name.prenom+" "+conversationSelected.friend.name.nom}/>
+                <GrContactInfo onClick={handleShowInfoFriend} className="icon option" title={"Info "+ conversationSelected.friend.prenom+" "+conversationSelected.friend.nom}/>
             </div>
         </div>
 

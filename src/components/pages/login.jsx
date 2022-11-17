@@ -31,7 +31,7 @@ function Login()
             setToken(res.data.token)
             setDataNotification({
                 status: true,
-                message: "Bonjour " + res.data.user.name.prenom + " " + res.data.user.name.nom,
+                message: "Bonjour " + res.data.user.prenom + " " + res.data.user.nom,
                 success: true
             })
         })
@@ -54,12 +54,12 @@ function Login()
 
             <form>
                 <div className="input_label">
-                    <label for="Email">email</label>
+                    <label htmlFor="Email">email</label>
                     <input type="email" name="email" id="Email" placeholder="exemple@gmail.com"/>
                 </div>
 
                 <div className="input_label">
-                    <label for="Password">password</label>
+                    <label htmlFor="Password">password</label>
                     <input type="password" name="password" id="Password" placeholder="Mot de passe"/>
                 </div>
 

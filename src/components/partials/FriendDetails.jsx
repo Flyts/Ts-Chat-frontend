@@ -29,7 +29,7 @@ function FriendDetails()
         <div className="Name">
             <span>
             {
-                conversationSelected.friend.name.prenom+" "+conversationSelected.friend.name.nom
+                conversationSelected.friend.prenom+" "+conversationSelected.friend.nom
             }
             </span>
         </div>

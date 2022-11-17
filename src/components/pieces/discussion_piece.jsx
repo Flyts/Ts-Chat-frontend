@@ -86,7 +86,7 @@ function Discussions({friend})
                     </div>
 
                     <div className="name_online">
-                        <strong>{friend.name.nom +" "+ friend.name.prenom}</strong>
+                        <strong>{friend.nom +" "+ friend.prenom}</strong>
                         <span>
                             {
                                 friend.status ? "Online" : "Offline"

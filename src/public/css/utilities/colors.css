@@ -10,6 +10,8 @@
     --grey: #e2e2e2;
     --green   : #13977a;
     --red   : #ad1313;
+    --error-bg: rgb(255, 107, 107);
+    --error-border: rgb(241, 53, 53);
     --color_input: #7f7f7f;
 
     --white-1: rgba(255,255,255,.1);

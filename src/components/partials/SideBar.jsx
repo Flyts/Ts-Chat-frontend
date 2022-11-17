@@ -6,6 +6,7 @@ import {IoLogOut} from "react-icons/io5"
 import {MdEdit} from "react-icons/md"
 import { dataContext } from "../../data/context"
 import {useContext} from "react"
+import {route} from "../../data/web"
 
 function SideBar()
 {
@@ -31,15 +32,17 @@ function SideBar()
     const component = 
     <div id="SideBar">
         <div className="UserAvatar">
-            <button style={{backgroundImage: `url(${userLogin.avatar})`}} title="Modifier le profil"></button>
-            <div className="icon">
-                <MdEdit/>
-            </div>
+            <Link to={route.editAccount.link}>
+                <button style={{backgroundImage: `url(${userLogin.avatar})`}} title="Modifier le profil"></button>
+                <div className="icon">
+                    <MdEdit/>
+                </div>
+            </Link>
         </div>
 
         <ul className="Menu">
             <li>
-                <Link to={"/"} className="link" title="Discussions">
+                <Link to={route.discussion.link} className="link" title="Discussions">
                     <BsFillChatDotsFill/>
                 </Link>
                 <i></i>

@@ -54,23 +54,23 @@ function Register()
             <form>
                 <div className="deux_input">
                     <div className="part">
-                        <label for="Nom">Nom</label>
+                        <label htmlFor="Nom">Nom</label>
                         <input type="text" id="Nom" name="nom" placeholder="Tapez votre Nom"/>
                     </div>
 
                     <div className="part">
-                        <label for="Prenom">Prénom</label>
+                        <label htmlFor="Prenom">Prénom</label>
                         <input type="text" id="Prenom" name="prenom" placeholder="Tapez votre Prénom"/>
                     </div>
                 </div>
 
                 <div className="input_label">
-                    <label for="Email">email</label>
+                    <label htmlFor="Email">email</label>
                     <input type="email" name="email" id="Email" placeholder="Tapez votre adresse mail"/>
                 </div>
 
                 <div className="input_label">
-                    <label for="Sexe">sexe</label>
+                    <label htmlFor="Sexe">sexe</label>
                     <select name="sexe" id="Sexe">
                         <option value="Homme">Homme</option>
                         <option value="Femme">Femme</option>
@@ -78,7 +78,7 @@ function Register()
                 </div>
 
                 <div className="input_label">
-                    <label for="Password">password</label>
+                    <label htmlFor="Password">password</label>
                     <input type="password" name="password" id="Password" placeholder="Tapez votre mot de passe"/>
                 </div>
 
