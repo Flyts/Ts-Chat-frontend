@@ -1,7 +1,9 @@
 import axios from "axios"
 import { useContext, useRef, useState, useEffect } from "react"
 import { BiImageAdd } from "react-icons/bi"
+import { json } from "react-router-dom"
 import { dataContext } from "../../data/context"
+import { socket } from "../../data/socketIo"
 import { routeApi } from "../../data/webApi"
 import "../../public/css/partials/_editInfo.css"
 import Loader from "../pieces/Loader"
@@ -15,7 +17,7 @@ function EditInfo()
 
     const [photoChoose, setPhotoChoose] = useState(""),
           [photoSelected, setPhotoSelected] = useState(""),
-          [error, setError] = useState("jfkekzeb"),
+          [error, setError] = useState(""),
           [errorBloc, setErrorBloc] = useState(false),
           [loaderChangeImg, setLoaderChangeImg] = useState(false),
           [loaderChangeInfo, setLoaderChangeInfo] = useState(false),
@@ -23,12 +25,18 @@ function EditInfo()
           [prenom, setPrenom] = useState(userLogin.prenom),
           [description, setDescription] = useState(userLogin.desciption)
 
+
     const modelImg  = useRef(),
           inputFile = useRef() 
 
     function HandleChooseImg()
     {
         inputFile.current.click()
+    }
+
+    function emitMyNewInfoForAllUser(userId)
+    {
+        socket.emit("emitMyNewInfoForAllUser", {userId})
     }
 
     function handleSendPhoto()
@@ -56,6 +64,8 @@ function EditInfo()
                         message: res.data.message,
                         success: true
                     })
+
+                    emitMyNewInfoForAllUser(userLogin._id)
 
                     setLoaderChangeImg(false)
                     setErrorBloc(false)
@@ -94,6 +104,8 @@ function EditInfo()
                     message: res.data.message,
                     success: true
                 })
+
+                emitMyNewInfoForAllUser(userLogin._id)
 
                 setLoaderChangeInfo(false)
                 setErrorBloc(false)

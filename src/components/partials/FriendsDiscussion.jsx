@@ -1,96 +1,111 @@
-import "../../public/css/partials/_friendsDiscussion.css" 
-import {IoSearch} from "react-icons/io5"
+import "../../public/css/partials/_friendsDiscussion.css"
+import { IoSearch } from "react-icons/io5"
 import Discussions from "../pieces/discussion_piece"
 import axios from "axios"
 import { useEffect, useContext, useState } from "react"
 import { routeApi } from "../../data/webApi"
 import { dataContext } from "../../data/context"
 import Loader from "../pieces/Loader"
+import { socket } from "../../data/socketIo"
+import { BsChevronCompactLeft } from "react-icons/bs"
 
-function FriendsDiscussion()
-{
-    function handleSearchFriend(value)
-    {
-        if(value.length)
-        {
-            if(!allFriends) setAllFriends(friends)
+function FriendsDiscussion() {
+  function handleSearchFriend(value) {
+    if (value.length) {
+      if (!allFriends) setAllFriends(friends)
 
-            axios.get(
-                routeApi.getSearchFriend, 
-                {
-                    params: {
-                        search: value,
-                        id: userLogin._id
-                    }
-                },
-                routeApi.configAuthHeader
-            )
-            .then((res) => {
-                setFriends(res.data.users)
-                setText(res.data.message)
-            })
-            .catch((errors) => console.error(errors))
-        }
-        else
-        {
-            setFriends(allFriends)
-            setAllFriends(null)
-            setText(noUser)
-        }
-    }
-
-    const {
-        userLogin,
-        friends, setFriends
-    } = useContext(dataContext)
-    
-    const noUser = "Pas d'utilisateur"
-    const [search, setSearch] = useState("")
-    const [allFriends, setAllFriends] = useState(null)
-    const [text, setText] = useState(noUser)
-
-    useEffect(() => 
-    {
-        axios.get(
-            routeApi.getFriends+"/"+userLogin._id, 
-            routeApi.configAuthHeader
-        )
-        .then((res) => 
-        {
-            setFriends(res.data.users)
-            localStorage.setItem("friends", JSON.stringify(res.data.users))
-        })
-        .catch((error) => console.error(error))
-    }, [])
-
-    const component = 
-    <div id="Friends">
-        <div className="Top">
-            <div className="search">
-                <label className="icon" htmlFor="Search"><IoSearch/></label>
-                <input type="search" onChange={(e) => 
-                {
-                    setSearch(e.target.value)
-                    handleSearchFriend(e.target.value)
-                }} value={search} name="search" id="Search" placeholder="Tapez votre recherche"/>
-            </div>
-        </div>
-
-        <div className="Discussions">
-            {
-                friends && friends.length?
-                    friends.map((user) => [
-                        <Discussions friend={user} key={user._id}/>
-                    ])
-                : 
-                    <div className="aucun">
-                        <h4>{text}</h4>
-                    </div> 
+      axios
+        .get(
+          routeApi.getSearchFriend,
+          {
+            params: {
+              search: value,
+              id: userLogin._id
             }
-        </div>
-    </div>
+          },
+          routeApi.configAuthHeader
+        )
+        .then((res) => {
+          setFriends(res.data.users)
+          setText(res.data.message)
+        })
+        .catch((errors) => console.error(errors))
+    } else {
+      setFriends(allFriends)
+      setAllFriends(null)
+      setText(noUser)
+    }
+  }
 
-    return component
+  const { userLogin, friends, setFriends } = useContext(dataContext)
+
+  const noUser = "Pas d'utilisateur"
+  const [search, setSearch] = useState("")
+  const [allFriends, setAllFriends] = useState(null)
+  const [text, setText] = useState(noUser)
+
+  useEffect(() => {
+    axios
+      .get(routeApi.getFriends + "/" + userLogin._id, routeApi.configAuthHeader)
+      .then((res) => {
+        setFriends(res.data.users)
+        localStorage.setItem("friends", JSON.stringify(res.data.users))
+      })
+      .catch((error) => console.error(error))
+  }, [])
+
+  
+  useEffect(() => {
+    socket.on("emit_my_new_info_for_all_user", ({ user }) => {
+      friends.forEach(function loop(friend, index) {
+        if (loop.stop) return
+  
+        if (friend._id === user._id) {
+          let tab = friends
+          tab[index] = user
+  
+          setFriends([...tab])
+  
+          loop.stop = true
+        }
+      })
+    })
+  }, [socket])
+
+  const component = (
+    <div id="Friends">
+      <div className="Top">
+        <div className="search">
+          <label className="icon" htmlFor="Search">
+            <IoSearch />
+          </label>
+          <input
+            type="search"
+            onChange={(e) => {
+              setSearch(e.target.value)
+              handleSearchFriend(e.target.value)
+            }}
+            value={search}
+            name="search"
+            id="Search"
+            placeholder="Tapez votre recherche"
+          />
+        </div>
+      </div>
+
+      <div className="Discussions">
+        {friends && friends.length ? (
+          friends.map((user) => [<Discussions friend={user} key={user._id} />])
+        ) : (
+          <div className="aucun">
+            <h4>{text}</h4>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+
+  return component
 }
 
 export default FriendsDiscussion

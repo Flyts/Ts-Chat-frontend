@@ -7,6 +7,7 @@ import "../../public/css/utilities/colors.css"
 import {useState, useEffect} from "react"
 import Discussion from "../pages/discussion.jsx"
 import EditAccount from "./editAccount"
+import Communaute from "./Communaute"
 
 function App() 
 {
@@ -39,7 +40,7 @@ function App()
 			
 			setToken(token)
 		}
-		setLoading(false);
+		setLoading(false)
 	}, [])
 
 	const component = 
@@ -74,6 +75,18 @@ function App()
 					element={
 						token ? (
 							<EditAccount />
+						) : (
+							<Navigate replace to={route.login.link}/>
+						)
+					}
+				/>
+
+				<Route 
+					exact={true}
+					path={route.communaute.link}
+					element={
+						token ? (
+							<Communaute />
 						) : (
 							<Navigate replace to={route.login.link}/>
 						)

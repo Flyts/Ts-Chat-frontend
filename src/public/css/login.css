@@ -46,6 +46,27 @@
     z-index: 2;
 }
 
+#Bloc .Connect .Erros
+{
+    border: 1px solid var(--error-border);
+    background-color: var(--error-bg);
+    color: var(--white);
+    width: 100%;
+    min-height: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 5px 15px;
+    text-align: center;
+    font-style: italic;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-transform: lowercase;
+
+    display: flex;
+    flex-direction: column;
+}
+
 #Bloc .Connect .logo
 {
     margin-top: 15px;
@@ -189,12 +210,31 @@
 
     display: flex;
     align-items: center;
+    justify-content: center;
 
     transition: .3s ease-in-out;
 }
 #Bloc .Connect form .send button:hover
 {
     box-shadow: 0 3px 5px 4px var(--black-1);
+}
+
+#Bloc .Connect form .send .icon
+{
+    color: var(--white);
+    transform: rotate(0deg);
+    font-size: 18px;
+
+    animation: loader 1s ease-in-out infinite;
+}
+@keyframes loader 
+{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
 }
 
 

@@ -6,19 +6,29 @@ import Logo from "../pieces/logo"
 import { routeApi } from "../../data/webApi"
 import axios from "axios"
 import { dataContext } from "../../data/context"
-import {useContext} from "react"
+import {useContext, useRef, useState} from "react"
+import { BiLoaderAlt } from "react-icons/bi"
 
 function Login()
 {
     const {setUserLogin, setToken, setDataNotification} = useContext(dataContext)
 
+
+    const [error, setError] = useState(""),
+          [errorBloc, setErrorBloc] = useState(false),
+          [loader, setLoader] = useState(false)
+
+          const myForm = useRef()
+
     function SignIn(e)
     {
-        const element = e.target,
+        const element = myForm.current,
         data = {
-            email: element.form["email"].value,
-            password: element.form["password"].value
+            email: element["email"].value,
+            password: element["password"].value
         } 
+
+        setLoader(true)
 
         axios.post(routeApi.SignIn,
             {...data},
@@ -34,8 +44,21 @@ function Login()
                 message: "Bonjour " + res.data.user.prenom + " " + res.data.user.nom,
                 success: true
             })
+            setLoader(false)
         })
-        .catch((error) => console.error(error))
+        .catch((errors) => {
+            if(errors.response.data.success === false) 
+            {
+                setError(errors.response.data.message)
+            }
+            else
+            {
+                setError(errors.response.data.errors)
+            }
+
+            setErrorBloc(true)
+            setLoader(false)
+        })
     }
 
     const component = 
@@ -52,7 +75,29 @@ function Login()
                 <p>Bonjour! Connectez-vous et commencez à discuter avec vos amis</p>
             </div>
 
-            <form>
+
+            {
+                errorBloc
+                ?
+                    Array.isArray(error)
+                    ? 
+                        <div className="Erros">
+                        {
+                            error.map((element) => 
+                            [
+                                <span key={element.param}>{element.msg}</span>
+                            ])
+                        }
+                        </div>
+                    :
+                        <div className="Erros">    
+                            <span>{error}</span>
+                        </div>
+                :
+                    null
+            }
+
+            <form ref={myForm}>
                 <div className="input_label">
                     <label htmlFor="Email">email</label>
                     <input type="email" name="email" id="Email" placeholder="exemple@gmail.com"/>
@@ -65,7 +110,13 @@ function Login()
 
                 <div className="send">
                     <button type="button" onClick={SignIn}>
-                        Se connecter
+                    {
+                        !loader
+                        ?
+                            <span>Se connecter</span>
+                        :
+                            <BiLoaderAlt className="icon"/>
+                    }
                     </button>
                 </div>
             </form>

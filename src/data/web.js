@@ -2,18 +2,22 @@ export const siteName = ["Ts", "Chat"],
 route = {
     "discussion" : {
         link: "/",
-        namePage: `${siteName[0]+" "+siteName[1]} | Discussion`
+        namePage: `Discussion | ${siteName[0]+" "+siteName[1]}`
     },
     "editAccount" : {
         link: "/edit-account",
-        namePage: `${siteName[0]+" "+siteName[1]} | Modifier mon compte`
+        namePage: `Modifier mon compte | ${siteName[0]+" "+siteName[1]}`
+    },
+    "communaute" : {
+        link: "/communaute",
+        namePage: `La communaute ${siteName[0]+" "+siteName[1]} | ${siteName[0]+" "+siteName[1]}`
     },
     "login" : {
         link: "/login",
-        namePage: `${siteName[0]+" "+siteName[1]} | Login`
+        namePage: `Login | ${siteName[0]+" "+siteName[1]}`
     },
     "register" : {
         link: "/register",
-        namePage: `${siteName[0]+" "+siteName[1]} | Register`
+        namePage: `Register | ${siteName[0]+" "+siteName[1]}`
     },
 }

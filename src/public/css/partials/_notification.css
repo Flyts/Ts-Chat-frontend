@@ -39,3 +39,25 @@
     height: 100%;
     padding: 10px 30px;
 }
+
+
+
+
+
+
+
+/** MEDIA QUERY **/
+    /**-- Ecran(<991px) --**/
+@media all and (max-width: 991px) 
+{
+    #Notification
+    {
+        text-align: center;
+        width: 80%;
+    }
+}
+
+@media all and (max-width: 771px) 
+{
+}
+    /**-- #FIN Ecran(<991px) --**/

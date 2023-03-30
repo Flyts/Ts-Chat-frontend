@@ -28,7 +28,7 @@ function Discussions({friend})
             localStorage.setItem("idFriendSelected", friend._id)
 
             socket.emit("join_or_create_conversation", {
-                from: userLogin.id,
+                from: userLogin._id,
                 to: friend._id,
                 friend: friend,
                 token
