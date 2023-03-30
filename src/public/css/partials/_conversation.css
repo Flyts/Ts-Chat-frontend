@@ -235,10 +235,17 @@
 #Conversation .Body .friend strong
 {
     font-weight: normal;
-    margin-top: 10px;
 
     display: flex;
 }
+
+
+#Conversation .Body .me .content_img,
+#Conversation .Body .friend .content_img
+{
+    margin-top: 10px;
+}
+
 
 
 #Conversation .Bottom
@@ -470,6 +477,21 @@
     justify-content: center;
 }
 
+#Conversation .Bottom .int .send .icon
+{
+    transform: rotate(0deg);
+
+    animation: loader 1s ease-in-out infinite;
+}
+@keyframes loader 
+{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
 
 .epr-preview
 {

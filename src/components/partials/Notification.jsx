@@ -15,7 +15,7 @@ function Notification({data})
             setTimeout(()=>{
                 document.body.classList.remove("Active_notification")
                 setDataNotification({status: false})
-            }, 10000)
+            }, 5000)
         }
     }, [dataNotification])
 

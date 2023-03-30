@@ -7,6 +7,7 @@ import {MdEdit} from "react-icons/md"
 import { dataContext } from "../../data/context"
 import {useContext} from "react"
 import {route} from "../../data/web"
+import {GiThreeFriends} from "react-icons/gi"
 
 function SideBar()
 {
@@ -53,8 +54,14 @@ function SideBar()
                     <i></i>
                 </Link>
             </li>
+            <li>
+                <Link to={route.communaute.link} className="link" title="Communauté">
+                    <GiThreeFriends/>
+                    <i></i>
+                </Link>
+            </li>
         </ul>
-
+        
         <div className="Bottom">
             <IoLogOut onClick={Logout} className="icon" title="Se déconnecter"/>
         </div>

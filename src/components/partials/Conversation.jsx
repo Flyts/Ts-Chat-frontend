@@ -16,6 +16,7 @@ import EmojiPicker from "emoji-picker-react"
 import { socket } from "../../data/socketIo"
 import formatSizeUnits from "../../data/functions"
 import {BsArrowLeftSquare} from "react-icons/bs"
+import {BiLoaderAlt} from "react-icons/bi"
 
 function Conversation()
 {
@@ -65,6 +66,8 @@ function Conversation()
     {
         if(message || filesSelected.length !== 0)
         {
+            setLoaderSendMessage(true)
+
             if(filesSelected)
             {
                 const reader = new FileReader()
@@ -74,7 +77,7 @@ function Conversation()
                     const file = evt.target.result
     
                     socket.emit("sendMessage", {
-                        from: userLogin.id,
+                        from: userLogin._id,
                         to: conversationSelected.friend._id,
                         message: message ? message : null,
                         file,
@@ -87,7 +90,7 @@ function Conversation()
             else
             {
                 socket.emit("sendMessage", {
-                    from: userLogin.id,
+                    from: userLogin._id,
                     to: conversationSelected.friend._id,
                     message: message ? message : null,
                     file: null,
@@ -95,15 +98,6 @@ function Conversation()
                     conversation_id: conversationSelected._id
                 })
             }
-
-            // socket.emit("sendMessage", {
-            //     from: userLogin.id,
-            //     to: conversationSelected.friend._id,
-            //     message: message,
-            //     file: filesSelected[0],
-            //     token,
-            //     conversation_id: conversationSelected._id
-            // })
         }
     }
 
@@ -121,6 +115,7 @@ function Conversation()
     const [emojiBlock, setEmojiBlock] = useState(false)
     const [filesSelected, setFilesSelected] = useState("")
     const [activeSelectImgBlc, setActiveSelectImgBlc] = useState(false)
+    const [loaderSendMessage, setLoaderSendMessage] = useState(false)
 
     const bodyBlock = useRef(),
           fileInput = useRef(),
@@ -135,7 +130,7 @@ function Conversation()
         {
             const conversation = (JSON.parse(localStorage.getItem("conversationSelected")))
 
-            if(userLogin.id === data.sender_id && conversation._id === data.conversation_id)
+            if(userLogin._id === data.sender_id && conversation._id === data.conversation_id)
             {
                 const value = {
                     _id: conversation._id,
@@ -150,6 +145,7 @@ function Conversation()
                 setMessage("")
                 setFilesSelected()
                 setActiveSelectImgBlc(false)
+                setLoaderSendMessage(false)
             }
         })
 
@@ -264,7 +260,7 @@ function Conversation()
                 conversationSelected !== null 
                 ?
                     conversationSelected.messages.map((message) => [
-                        <div key={message._id} className={message.from === userLogin.id ? "me" : "friend"}>
+                        <div key={message._id} className={message.from === userLogin._id ? "me" : "friend"}>
                             <div className="txt_img">
                                 {
                                     message.type_file === "image" ?
@@ -274,7 +270,11 @@ function Conversation()
                                 
                                 {
                                     message.message ?
-                                        <strong>{message.message}</strong>
+                                        message.type_file === "image"
+                                        ?
+                                            <strong className="content_img">{message.message}</strong>
+                                        : 
+                                            <strong>{message.message}</strong>
                                     : null
                                 }
                                 <i></i>
@@ -350,9 +350,16 @@ function Conversation()
                     <FaMicrophone className="icon" title="Envoyer un audio"/>
                 </div>
 
-                <button className="send" onClick={handleSendMessage}>
-                    <RiSendPlaneFill title="Envoyer votre message"/>
-                </button>
+                {
+                    loaderSendMessage ?
+                        <button className="send">
+                            <BiLoaderAlt className="icon"/>
+                        </button>
+                    :
+                        <button className="send" title="Envoyer votre message" onClick={handleSendMessage}>
+                            <RiSendPlaneFill/>
+                        </button>
+                }
             </div>
         </div>
     </div>
