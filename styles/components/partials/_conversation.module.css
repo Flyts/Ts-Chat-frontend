@@ -1,0 +1,524 @@
+.Conversation
+{
+    border-left: 1px solid var(--black-1);
+    border-right: 1px solid var(--black-1);
+    background-color: var(--white);
+    width: 100%;
+    height: 100%;
+    font-family: "Open Sans", sans-serif;
+}
+
+.Conversation .Top
+{
+    border-bottom: 1px solid var(--black-1);
+    width: 100%;
+    height: 80px;
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Conversation .Top .friend
+{
+    width: 100%;
+
+    display: flex;
+}
+
+.Conversation .Top .friend .retour
+{
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    margin-right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--color_txt);
+    opacity: .6;
+
+    display: none;
+
+    transition: .3s ease-in-out;
+}
+.Conversation .Top .friend .retour:hover
+{
+    color: var(--blue);
+}
+
+.Conversation .Top .friend .avatar
+{
+    min-width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.Conversation .Top .friend .name_online strong
+{
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.Conversation .Top .friend .name_online .online
+{
+    display: flex;
+    align-items: center;
+}
+
+.Conversation .Top .friend .name_online .online span
+{
+    font-weight: 400;
+    font-size: 14px;
+    opacity: .5;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+
+.Conversation .Top .options
+{
+    min-width: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.Conversation .Top .options
+{
+    min-width: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.Conversation .Top .options .icon
+{
+    color: var(--color_txt);
+    opacity: .5;
+    margin-left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+
+    transition: .3s ease-in-out;
+}
+.Conversation .Top .options .icon:hover
+{
+    opacity: 1;
+}
+
+.Conversation .Top .options .option
+{
+    display: none;
+}
+
+
+.Conversation .Body
+{
+    position: relative;
+
+    width: 100%;
+    height: calc(100vh - 70px - 80px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px 15px;
+}
+
+.Conversation .Body .img
+{
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    
+    width: 250px;
+    height: 260px;
+}
+
+.Conversation .Body .friend
+{
+    width: 100%;
+    padding-right: 40%;
+    margin: 20px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.Conversation .Body .friend .txt_img
+{
+    position: relative;
+    background-color: var(--bg-color);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: var(--color_txt);
+    box-shadow: 0 5px 5px var(--black-2);
+}
+
+.Conversation .Body .friend .txt_img i
+{
+    position: absolute;
+    bottom: -5px;
+    left: -10px;
+
+    border: 0 solid transparent;
+    border-top-width: 10px;
+    border-bottom-width: 10px;
+    border-right: 20px solid var(--bg-color);
+    
+    transform: rotate(-25deg);
+
+    display: inline-block;
+}
+
+.Conversation .Body .friend span
+{
+    margin-top: 5px;
+    margin-left: 15px;
+    font-size: 13px;
+    opacity: .5;
+}
+
+.Conversation .Body .me
+{
+    width: 100%;
+    padding-left: 40%;
+    margin: 20px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.Conversation .Body .me .txt_img
+{
+    position: relative;
+
+    background-color: var(--blue);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: var(--white);
+    box-shadow: 0 5px 5px var(--black-2);
+}
+
+.Conversation .Body .me .txt_img i
+{
+    position: absolute;
+    bottom: -5px;
+    right: -10px;
+
+    border: 0 solid transparent;
+    border-top-width: 10px;
+    border-bottom-width: 10px;
+    border-left: 20px solid var(--blue);
+    
+    transform: rotate(25deg);
+
+    display: inline-block;
+}
+
+.Conversation .Body .me span
+{
+    margin-top: 5px;
+    margin-right: 15px;
+    font-size: 13px;
+    opacity: .5;
+}
+
+.Conversation .Body .me strong,
+.Conversation .Body .friend strong
+{
+    font-weight: normal;
+
+    display: flex;
+}
+
+
+.Conversation .Body .me .content_img,
+.Conversation .Body .friend .content_img
+{
+    margin-top: 10px;
+}
+
+
+
+.Conversation .Bottom
+{
+    position: relative;
+    border: 1px solid var(--black-1);
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Conversation .Bottom .image_seleted
+{
+    border-top: 1px solid var(--black-1);
+    position: absolute;
+    top: 80px;
+    left: 0;
+    
+    background-color: var(--white-8);
+    width: 100%;
+    height: 300px;
+    padding: 0 15px;
+    visibility: hidden;
+    opacity: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    transition: .3s ease-in-out;
+}
+.Active_img_selected .Bottom .image_seleted
+{
+    top: -301px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.Conversation .Bottom .image_seleted .top
+{
+    width: 100%;
+    padding: 15px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.Conversation .Bottom .image_seleted .top button
+{
+    border: none;
+    background-color: var(--white);
+    min-width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    color: var(--color_txt);
+    font-size: 20px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Conversation .Bottom .image_seleted .image
+{
+    border: 1px solid var(--black-2);
+    background-color: var(--white);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 5px;
+
+    width: 200px;
+    height: 180px;
+}
+
+.Conversation .Bottom .details_image
+{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Conversation .Bottom .details_image .part
+{
+    margin-top: 5px;
+    color: var(--color_input);
+    font-size: 15px;
+}
+
+.Conversation .Bottom .details_image .part span
+{
+    
+}
+
+
+.Conversation .Bottom .emoji
+{
+    position: absolute;
+    top: -300px;
+    left: 0;
+
+    width: 100%;
+    padding: 0 15px;
+}
+
+.Conversation .Bottom .int
+{
+    position: relative;
+    width: 80%;
+    border-radius: 10px;
+    padding: 0 20px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    z-index: 3;
+}
+
+.Conversation .Bottom .int
+{
+    background-color: var(--bg-color);
+    width: 80%;
+    border-radius: 10px;
+
+
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.Conversation .Bottom .int .file
+{
+    color: var(--color_txt);
+    opacity: .5;
+    min-width: 30px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    transition: .3s ease-in-out;
+}
+.Conversation .Bottom .int .file:hover
+{
+    color: var(--blue);
+    opacity: 1;
+}
+
+.Conversation .Bottom .int .file input
+{
+    display: none;
+}
+
+.Conversation .Bottom .int .message
+{
+    border: none;
+    background: none;
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 15px;
+    color: var(--color_input);
+}
+
+.Conversation .Bottom .int .options
+{
+    min-width: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.Conversation .Bottom .int .options
+{
+    min-width: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.Conversation .Bottom .int .options .icon
+{
+    margin-right: 10px;
+    font-size: 17px;
+    cursor: pointer;
+    opacity: .5;
+    color: var(--color_txt);
+
+    transition: .3s ease-in-out;
+}
+.Conversation .Bottom .int .options .icon:hover
+{
+    color: var(--blue);
+    opacity: 1;
+}
+
+.Conversation .Bottom .int .send
+{
+    position: absolute;
+    top: 50%;
+    right: -10px;
+
+    border: none;
+    background-color: var(--blue);
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    color: var(--white);
+    font-size: 20px;
+    cursor: pointer;
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Conversation .Bottom .int .send .icon
+{
+    transform: rotate(0deg);
+
+    animation: loader 1s ease-in-out infinite;
+}
+@keyframes loader 
+{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.epr-preview
+{
+    display: none !important;
+}
+
+
+
+
+
+
+/** MEDIA QUERY **/
+    /**-- Ecran(<991px) --**/
+@media all and (max-width: 991px) 
+{
+    .Conversation .Top .friend .retour
+    {
+        display: inline-block;
+    }
+
+    .Conversation .Top .options .option
+    {
+        display: flex;
+    }
+}
+
+@media all and (max-width: 771px) 
+{
+}
+    /**-- #FIN Ecran(<991px) --**/

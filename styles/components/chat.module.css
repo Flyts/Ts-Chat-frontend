@@ -1,30 +1,19 @@
-.Discussion
+.Chat
 {
-    position: relative;
-    background-color: var(--bg-color);
+    /* position: relative; */
     width: 100%;
     height: 100vh;
-    font-family: "Open Sans", sans-serif;
-    color: var(--color_txt);
 
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
 }
 
-.Discussion .SideBar
-{
-    min-width: 80px;
-    height: 100vh;
-}
-
-.Discussion .Friends
+.Chat .Friends
 {
     min-width: 350px;
     height: 100vh;
 }
 
-.Discussion .Conversation_FriendDetails
+.Chat .Conversation_FriendDetails
 {
     position: relative;
     width: 100%;
@@ -34,19 +23,19 @@
     align-items: stretch;
 }
 
-.Discussion .Conversation_FriendDetails .conversation
+.Chat .Conversation_FriendDetails .conversation
 {
     width: 100%;
     height: 100vh;
 }
 
-.Discussion .Conversation_FriendDetails .friendDetails
+.Chat .Conversation_FriendDetails .friendDetails
 {
     min-width: 300px;
     height: 100vh;
 }
 
-.Discussion .Conversation_FriendDetails .noFriendSelected
+.Chat .Conversation_FriendDetails .noFriendSelected
 {
     background-color: var(--white);
     width: 100%;
@@ -59,17 +48,18 @@
     justify-content: center;
 }
 
-.Discussion .Conversation_FriendDetails .noFriendSelected .img
+.Chat .Conversation_FriendDetails .noFriendSelected .bloc_img
 {
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    position: relative;
 
     width: 300px;
     height: 280px;
 }
+.Chat .Conversation_FriendDetails .noFriendSelected .bloc_img .img
+{
+}
 
-.Discussion .Conversation_FriendDetails .noFriendSelected p
+.Chat .Conversation_FriendDetails .noFriendSelected p
 {
     padding: 0;
     margin: 0;
@@ -78,7 +68,7 @@
 }
 
 
-.Discussion .Conversation_FriendDetails .Loader_mobil
+.Chat .Conversation_FriendDetails .Loader_mobil
 {
     display: none;
 }
@@ -93,12 +83,12 @@
     /**-- Ecran(<991px) --**/
 @media all and (max-width: 991px) 
 {
-    .Discussion .Friends
+    .Chat .Friends
     {
         width: 100%;
     }
 
-    .Discussion .Conversation_FriendDetails
+    .Chat .Conversation_FriendDetails
     {
         position: absolute;
         top: 0;
@@ -111,18 +101,18 @@
 
         z-index: 4;
     }
-    .Select_discution .Discussion .Conversation_FriendDetails
+    .Select_discution .Chat .Conversation_FriendDetails
     {
         right: 0%;
     }
 
 
-    .Discussion .Conversation_FriendDetails .conversation
+    .Chat .Conversation_FriendDetails .conversation
     {
         width: 100%;
     }
 
-    .Discussion .Conversation_FriendDetails .friendDetails
+    .Chat .Conversation_FriendDetails .friendDetails
     {
         position: absolute;
         top: 0;
@@ -134,12 +124,12 @@
 
         z-index: 3;
     }
-    .Show_info_friend .Discussion .Conversation_FriendDetails .friendDetails
+    .Show_info_friend .Chat .Conversation_FriendDetails .friendDetails
     {
         right: 0;
     }
 
-    .Discussion .Conversation_FriendDetails .noFriendSelected
+    .Chat .Conversation_FriendDetails .noFriendSelected
     {
         display: none;
     }

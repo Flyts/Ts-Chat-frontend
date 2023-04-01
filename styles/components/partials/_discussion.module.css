@@ -1,0 +1,98 @@
+.Discussions
+{
+    border: 1px solid var(--black-1);
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 20px 20px;
+    color: var(--color_txt);
+    font-family: "Open Sans", sans-serif;
+    cursor: pointer;
+    margin-bottom: 15px;
+
+    transition: .3s ease-in-out;
+}
+.Discussions:hover
+{
+    box-shadow: 0 5px 7px var(--black-1);
+}
+.active .Discussions
+{
+    background-color: var(--color_txt);
+    color: var(--white-8);
+}
+
+.Discussions .Head
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Discussions .Head .avatar_name
+{
+    margin-bottom: 15px;
+
+    display: flex;
+}
+
+.Discussions .Head .avatar
+{
+    min-width: 55px;
+    height: 55px;
+}
+
+.Discussions .Head .name_online
+{
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Discussions .Head .name_online strong
+{
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.Discussions .Head .name_online span
+{
+    font-weight: 400;
+    font-size: 13px;
+    opacity: .5;
+    margin-top: 8px;
+}
+
+.Discussions .Head .send_time
+{
+    font-weight: 500;
+    font-size: 13px;
+    opacity: .5;
+}
+
+.Discussions .Body
+{
+    display: flex;
+    align-items: center;
+}
+
+.Discussions .Body .message
+{
+    width: 100%;
+    font-size: 15px;
+    padding-right: 15px;
+}
+
+.Discussions .Body .number
+{
+    background-color: var(--blue);
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

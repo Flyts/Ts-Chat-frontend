@@ -1,5 +1,14 @@
+import Layout from '../components/Layout'
 import '../styles/globals.css'
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
+export default function App({ Component, pageProps }) 
+{
+  const component = 
+  <>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  </>
+
+  return component
 }
