@@ -1,5 +1,5 @@
 export const siteName = "Naledi", 
-route = {
+routeWeb = {
     "discussion" : {
         link: "/",
         namePage: `Discussion | ${siteName}`

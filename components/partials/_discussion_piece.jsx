@@ -1,111 +1,124 @@
-import { useContext } from "react"
-import { dataContext } from "../../store/AuthStore"
-import styles from "../../styles/components/partials/_discussion.module.css"
+import styles from "../../styles/components/partials/_discussion_piece.module.css"
+import { conversationStore } from "../../store/ConversationStore"
+import moment from "moment"
+import AvatarFriend from "./_Avatar"
+import { useEffect, useState } from "react"
 
 
-function Discussions({friend})
+function Discussions({data})
 {
-    const {
-        conversationSelected, setConversationSelected,
-        userLogin,
-        setIdFriendSelected, idFriendSelected,
-        setDataNotification,
-        setLoader,
-        token
-    } = useContext(dataContext)
+    const {choosedConversation, index } = data
 
-
-    function handleSelectDiscussion(e)
+    function handleSelectDiscussion()
     {
-        if(friend._id !== idFriendSelected)
+        if(choosedConversation._id !== renderConversationSelected._id)
         {
-            document.body.classList.add("Select_discution")
-            setLoader(true)
-            setIdFriendSelected(friend._id)
-            localStorage.setItem("idFriendSelected", friend._id)
+            if(renderConversationSelected._id !== 0)
+            {
+                let selectedConversation = [...renderConversations]
 
-            socket.emit("join_or_create_conversation", {
-                from: userLogin._id,
-                to: friend._id,
-                friend: friend,
-                token
-            })
+                selectedConversation[conversationIndex].messages = ["data 1", "data 2"]
+                
+
+                console.log("Conv selected", selectedConversation)
+                console.log("Render Conv messages", renderConversationSelected.messages)
+                // setConversations(selectedConversation)
+            }
+
+            const data = {
+                _id: choosedConversation._id,
+                title: choosedConversation.title,
+                messages: choosedConversation.messages,
+                create_at: choosedConversation.createdAt,
+                update_at: choosedConversation.updatedAt,
+            }
+            setConversationSelected(data)
+
+            setConversationIndex(index)
         }
+
+
     }
 
-    useEffect(()=>
-    {
-        // socket.on("joined_conversation", (data) => 
-        // {
-        //     const value = {
-        //         _id: data.conversation[0]._id,
-        //         friend: data.friend,
-        //         messages: data.messages
-        //     }
+    const { 
+        conversationSelected, setConversationSelected,
+        conversations, setConversations,
+        conversationIndex, setConversationIndex
+    } = conversationStore(state => state)
 
-        //     localStorage.setItem("conversationSelected", JSON.stringify(value))
-        //     setConversationSelected(value)
-        //     setLoader(false)
-        // })
+    const [renderConversationSelected, setRenderConversationSelected] = useState(conversationSelected),
+          [renderConversations, setRenderConversations] = useState(conversations)
 
-        // socket.on("created_conversation", (data) => 
-        // {
-        //     const value = {
-        //         _id: data.conversation._id,
-        //         friend: data.friend,
-        //         messages: data.messages
-        //     }
+    useEffect(() => {
+        setRenderConversationSelected(conversationSelected)
+    }, [conversationSelected])
 
-        //     setConversationSelected(value)
-        //     localStorage.setItem("conversationSelected", JSON.stringify(value))
-        //     setLoader(false)
-        //     setDataNotification({
-        //         status: true,
-        //         message: data.message,
-        //         success: true
-        //     })
-        // })
-
-        // socket.on("error_join_or_create_conversation", (data) => 
-        // {
-        //     console.error(data)
-        // })
-    }, [])
+    useEffect(() => {
+        setRenderConversations(conversations)
+    }, [conversations])
 
 
     const component = 
-    <div className={friend._id === idFriendSelected ? styles.active : ""}>
+    <div className={renderConversationSelected._id ? choosedConversation._id === renderConversationSelected._id ? styles.active : null : null}>
         <div className={styles.Discussions} onClick={handleSelectDiscussion}>
             <div className={styles.Head}>
                 <div className={styles.avatar_name}>
                     <div className={styles.avatar}>
-                        {/* <AvatarFriend user={{avatar: friend.avatar, status: friend.status}}/> */}
+                        <AvatarFriend user={{
+                            avatar: choosedConversation.avatar, 
+                            status: choosedConversation._id == renderConversationSelected._id ? true : false
+                        }}/>
                     </div>
 
                     <div className={styles.name_online}>
-                        <strong>{"Tshibanda samuel"}</strong>
+                        <strong>{choosedConversation.title}</strong>
                         <span>
                             {
-                                "Online"
+                                choosedConversation._id == renderConversationSelected._id
+                                ?
+                                    "Online"
+                                :
+                                    "offline"
                             }
                         </span>
                     </div>
                 </div>
 
                 <div className={styles.send_time}>
-                    <span>3h ago</span>
+                    <span>
+                    {
+                        moment(Date.now()).format("MMM Do YY") === moment(choosedConversation.createdAt).format("MMM Do YY")
+                        ?
+                            moment(choosedConversation.create_at).format("H:mm")
+                        :
+                            moment(choosedConversation.createdAt).format("DD/MM/YYYY - H:mm:ss")
+                    }
+                    </span>
                 </div>
             </div>
 
-            <div className={styles.Body}>
-                <div className={styles.message}>
-                    <span>abcdefghijklmnopqrstuvwxyz1234</span>
-                </div>
+            {
+                choosedConversation.messages.length > 0
+                ?
+                    {/* <div className={styles.Body}>
+                        <div className={styles.message}>
+                            <span>
+                            {
+                                conversation.messages[conversation.messages.length -1].text.length <= 20 
+                                ?
+                                    conversation.messages[conversation.messages.length -1].text
+                                : 
+                                    conversation.messages[conversation.messages.length -1].text.substring(0, 19) + '...'
+                            }
+                            </span>
+                        </div>
 
-                <div className={styles.number}>
-                    2
-                </div>
-            </div>
+                        <div className={styles.number}>
+                            {conversation.messages.length}
+                        </div>
+                    </div> */}
+                : null
+            }
         </div>
     </div>
 

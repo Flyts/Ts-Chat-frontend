@@ -6,7 +6,6 @@ function AvatarFriend({user})
 {
     const component =
     <div className={styles.AvatarFriend}>
-        {/* <div className={styles.img} style={{backgroundImage: `url(${user ? user.avatar : ""})`}}></div> */}
         <div className={styles.img} style={{backgroundImage: `url(${Img})`}}>
             <Image
                 src={Img}

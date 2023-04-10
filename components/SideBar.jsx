@@ -7,7 +7,7 @@ import {useContext} from "react"
 import {GiThreeFriends} from "react-icons/gi"
 import Link from "next/link"
 import { dataContext } from "../store/AuthStore"
-import { route } from "../route/web"
+import { routeWeb } from "../route/web"
 import Img from "../public/default.jpg"
 
 function SideBar()
@@ -24,7 +24,7 @@ function SideBar()
     const component = 
     <div className={styles.SideBar}>
         <div className={styles.UserAvatar}>
-            <Link href={route.editAccount.link}>
+            <Link href={routeWeb.editAccount.link}>
                 {/* <button style={{backgroundImage: `url(${userLogin.avatar})`}} title="Modifier le profil"></button> */}
                 <button style={{backgroundImage: `url(${Img})`}} title="Modifier le profil"></button>
 
@@ -36,7 +36,7 @@ function SideBar()
 
         <ul className={styles.Menu}>
             <li>
-                <Link href={route.discussion.link} className={styles.link} title="Discussions">
+                <Link href={routeWeb.discussion.link} className={styles.link} title="Discussions">
                     <BsFillChatDotsFill/>
                 </Link>
                 <i></i>
@@ -48,7 +48,7 @@ function SideBar()
                 </Link>
             </li>
             <li>
-                <Link href={route.communaute.link} className={styles.link} title="Communauté">
+                <Link href={routeWeb.communaute.link} className={styles.link} title="Communauté">
                     <GiThreeFriends/>
                     <i></i>
                 </Link>
