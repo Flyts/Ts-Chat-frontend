@@ -3,6 +3,8 @@ import { Poppins } from "@next/font/google";
 import { useState, useEffect } from "react";
 import { dataContext } from "../store/AuthStore";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { initialiseAuthState } from "../store/authStore";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -11,34 +13,15 @@ const poppins = Poppins({
 
 function Layout({ children }) 
 {
-	const [userLogin, setUserLogin] = useState(null),
-        [token, setToken]         = useState(""),
-        [conversationSelected, setConversationSelected] = useState({
-          messages: []
-        }),
-        [idFriendSelected, setIdFriendSelected] = useState(""),
-        [friends, setFriends] = useState([]),
-        [loader, setLoader] = useState(false),
-        [dataNotification, setDataNotification] = useState({
-          status: false
-        })
+  const dispatch = useDispatch()
 
     useEffect(() => 
     {
-        if(!token)
-        {
-            const token = Cookies.get("token")
-
-            if(token)
-            {
-                setUserLogin(JSON.parse(Cookies.get("user")));
-                setToken(token);
-            }
-        }
-    }, [token]);
+      dispatch(initialiseAuthState())
+    }, []);
 
 
-  const component = (
+  const component = 
     <div className={poppins.className} id={"Site"}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,7 +32,6 @@ function Layout({ children })
         {children}
       </main>
     </div>
-  );
 
   return component;
 }

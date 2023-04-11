@@ -6,6 +6,9 @@ import styles from "../styles/login.module.css"
 import Logo from "../components/partials/_Logo"
 import { useRef, useState } from "react"
 import axios from "axios"
+import { useEffect } from "react"
+import Cookies from "js-cookie"
+import { tokenKey, userKey } from "../utils/constants"
 
 function Login()
 {
@@ -51,6 +54,25 @@ function Login()
             // setLoader(false)
         })
     }
+
+    useEffect(() => 
+    {
+        const data = {
+            user: {
+                "prenom": "Pascal",
+                "nom": "Kasonga",
+                "tel": "+243852797112",
+                "password": "$2b$10$K5h0yuouVZRXgVCJD64Iwe9sw1kuPyQYTDt7WZJ89XwZioZIT9tRC",
+                "conversations": [],
+                "_id": "64344b0305633fff43e26e26",
+                "createdAt": "2023-04-10T17:44:35.849Z",
+                "updatedAt": "2023-04-10T17:44:35.849Z",
+            },
+            token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IisyNDM4NTI3OTcxMTIiLCJpYXQiOjE2ODExNDg2NzV9.HtmODbB1WCZpdvtXNwKNQH0sWZX-imkTKrsVXYiOa5M",
+        }
+        Cookies.set(userKey, JSON.parse(data.user))
+        Cookies.set(tokenKey, data.token)
+    }, [])
 
 
     const [error, setError] = useState(null),

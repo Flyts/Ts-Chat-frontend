@@ -10,7 +10,7 @@ export function middleware(req)
 
     if(!token && url.includes("/"))
     {
-        // return NextResponse.redirect(new URL(`${process.env.BASE_PATH}${routeWeb.login.link}`))
+        return NextResponse.redirect(new URL(`${process.env.BASE_PATH}${routeWeb.login.link}`))
     }
 
     if(token && url.includes("/connexion") || token && url.includes("/inscription"))
